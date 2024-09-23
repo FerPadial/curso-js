@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curso JS</title>
+    <style>
+        body{
+            background-color: rgb(105, 105, 173);
+            color: white;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        h1{
+            color: yellowgreen;
+        }
+    </style>
+</head>
+<body>
+
+
+
+    <script>
+        var nome = window.prompt('Digite seu nome: ')
+        document.write(`Olá <strong>${nome}</strong>! Seu nome tem ${nome.length} letras.<br>`)
+        document.write(`Seu nome em maiúsculas é <strong>${nome.toUpperCase()} </strong>.<br>`)
+        document.write(`Seu nome em minúsculas é <strong>${nome.toLowerCase()} </strong>.<br>`)
+
+        var n1 = 1545.5
+        document.write(`O numero é: ${n1.toFixed(2).replace('.',',')}<br>`)
+
+        var n1 = 1545.5
+        document.write(`Em valor monetário é: ${n1.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})}<br>`)
+        document.write(`Em valor monetário é: ${n1.toLocaleString('en', {style: 'currency', currency: 'USD'})}<br>`)
+        document.write(`Em valor monetário é: ${n1.toLocaleString('pt-BR', {style: 'currency', currency: 'EUR'})}<br>`)
+    </script>
+</body>
+</html>
