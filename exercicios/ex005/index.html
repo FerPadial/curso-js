@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curso JS</title>
+    <style>
+        body{
+            background-color: rgb(105, 105, 173);
+            color: white;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        h1{
+            color: yellowgreen;
+        }
+    </style>
+</head>
+<body>
+    <h1>Iniciando estudos DOM</h1>
+    <p>Aqui vai o resultado</p>
+    <p>Aprendendo usar o <strong>DOM</strong> em JavaScript</p>
+    <div id="msg">Clique em mim</div>
+
+    <script>
+        window.document.writeln(window.document.charset + '<br>') 
+        window.document.writeln(window.navigator.appName + '<br>')
+        window.document.writeln(window.document.URL + '<br>')
+
+        var p1 = window.document.getElementsByTagName('p')[0]
+        window.document.write(`No 1o. p contem: ${p1.innerText} <br>`)
+
+        var corpo = window.document.body 
+        corpo.style.backgroundColor = 'gray'
+        p1.style.color = 'blue'
+
+        var p1 = window.document.getElementsByTagName('p')[1]
+        document.write(p1.innerHTML)
+
+        /* quando é ID usa # */
+        var d = window.document.querySelector('div#msg')
+        d.style.backgroundColor = 'green'
+
+        /* quando é Classe usa . */
+        var d = window.document.querySelector('div.msg')
+        d.style.backgroundColor = 'green'
+    </script>
+</body>
+</html>

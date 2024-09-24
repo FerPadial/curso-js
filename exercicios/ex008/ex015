@@ -1,0 +1,32 @@
+function parimpar(n) {
+   if (n%2 == 0) {
+        return 'Par'
+   } else {
+        return 'Impar'
+   }
+}
+
+var tipo = parimpar(6)
+console.log(tipo)
+
+/*
+Tipos de funcoes
+iife
+elofuncions
+callbacks
+funcoes anonimas
+ifs
+
+modularizacao
+Expressoes Regulares RegEx
+json
+ajax
+NodeJS fazer scripts rodar no servidor
+jquery
+js
+angular
+*/
+
+
+
+

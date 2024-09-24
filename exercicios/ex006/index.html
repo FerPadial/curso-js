@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curso JS</title>
+    <style>
+        body{
+            background-color: rgb(105, 105, 173);
+            color: white;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        div#area{
+            font: normal 20pt Arial;
+            background-color: rgb(45, 95, 45);
+            color: white;
+            width: 200px;
+            height: 200px;
+            line-height: 200px;
+            text-align: center;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.466);
+            border-radius: 15px;
+
+        }
+    </style>
+</head>
+<body>
+    <div id="area">
+        Interaja...
+    </div>
+
+    <script>
+        var a = window.document.getElementById('area')
+        a.addEventListener('click', clicar)
+        a.addEventListener('mouseenter', entrar)
+        a.addEventListener('mouseout', sair)
+
+
+        function clicar(){
+            a.innerText = 'Clicou!'
+            a.style.backgroundColor = 'yellow'
+            a.style.color = 'black'
+        }
+
+        function entrar(){
+            a.style.backgroundColor = 'red'
+        }
+
+        function sair(){
+            a.style.backgroundColor = 'rgb(45, 95, 45)'
+            a.innerText = "Interaja..."
+            a.style.color = 'white'
+        }
+
+    </script>
+</body>
+</html>
