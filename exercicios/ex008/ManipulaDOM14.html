@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document-HTML6</title>
+    <link rel="stylesheet" type="text/css" href="style_dom14.css"/>
+</head>
+<body>
+    <div id="criaCarro" class="criaCarro">
+        <div class="campoForm">
+            <label for="f_nome">Nome</label>
+            <input type="text" name="f_nome" id="f_nome" valud="">
+        </div>
+        <div class="campoForm">
+            <label for="f_portas">Portas</label>
+            <input type="number" name="f_portas" id="f_portas" value="0">
+        </div>
+        <div class="campoForm">
+            <label for="f_blindagem">Blidagem</label>
+            <input type="number" name="f_blindagem" id="f_blindagem"  disable value="0">
+        </div>
+        <div class="campoForm">
+            <label for="f_municao">Munição</label>
+            <input type="number" name="f_municao" id="f_municao" value="0">
+        </div>
+        <div class="campoForm">
+            <label for="f_tipo">Tipo</label>
+            <div class="radio">
+                <input type="radio" name="f_tipo" id="f_tipoMilitar" value="m">Militar
+            </div>
+            <div class="radio">
+                <input type="radio" name="f_tipo" id="f_tipoNormal" value="n">Normal
+            </div>
+        </div>
+        <div class="campoForm">
+            <button id="btn_addCarro">Adicionar</button>
+        </div>
+        <div id="carros" class="carros">
+            <!-- aqui vão as divs dos carros -->
+        </div>
+        
+    </div>
+
+    <script src="dom14OO.js"></script>
+    <script src="usandoJSON.js"></script>
+</body>
+</body>
+</html>
