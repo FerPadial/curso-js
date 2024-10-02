@@ -1,7 +1,30 @@
+//qdo eu tenho uma classe abstratada ela não pode ser instanciada ela só serve de base para ser extendida para outras classes, usada só pro conceito de herança
+
 //capacidade de um mesmo metodos ter ações distintas comportamentos diferentes
 
-class Carro{
+//Posso tambem tornar obrigatório de que seja implementado um metodo ou propriedade pela classe que recebem a herança da classe abstrata
+
+class CarroPadrao{
+    constructor(){
+        if(this.constructor===CarroPadrao){
+            throw new TypeError("Esta Classe é ABSTRATA - Não pode ser instanciada")
+        }
+        if(this.ligar===undefined){
+            throw new TypeError("É OBRIGATÓRIO implementar o método Ligar")
+        }
+        if(this.desligar===undefined){
+            throw new TypeError("É OBRIGATÓRIO implementar o método Desligar")
+        }
+        this.rodas=4
+        this.portas=4
+        this.ligado=false
+    }
+}
+
+
+class Carro extends CarroPadrao{
     constructor(tipo,estagioTurbo){
+        super()
         this.turbo=new Turbo(estagioTurbo)
         if(tipo==1){
             this.velMax=120
@@ -24,8 +47,13 @@ class Carro{
         console.log(this.nome)
         console.log(this.velMax)
         console.log(this.turbo.pot)
+        console.log(this.rodas)
+        console.log(this.portas)
+        console.log(this.ligado)
         console.log('------------')
     }
+    ligar(){this.ligado=true}
+    desligar(){this.ligado=false}
 }
 
 class Turbo{
@@ -47,7 +75,7 @@ class Turbo{
 class carroEspecial extends Carro{
     constructor(estagioTurbo){
         super(4,estagioTurbo)
-        this.tipoInfo=2
+        this.tipoInfo=1
         this.velMax=300+this.turbo.pot
         this.nome="Carro especial"
     }
@@ -72,6 +100,10 @@ class carroEspecial extends Carro{
 const c1=new Carro(1,0)
 const c2=new Carro(1,1)
 const c3=new carroEspecial(3)
+//const c4 =new CarroPadrao()   //esta classe é abstrata Não pode ser instanciada então essa instrução tem que resultar em erro conforme Throw
+
+c1.ligado=true
+c3.ligado=true
 
 c1.info()
 c2.info()
