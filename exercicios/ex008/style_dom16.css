@@ -1,0 +1,13 @@
+@charset "UTF-*";
+
+.numero{
+    font-size: large;
+}
+
+.ok{
+    color: #00f;
+}
+
+.erro{
+    color: #f00;
+}
