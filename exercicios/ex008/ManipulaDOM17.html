@@ -7,9 +7,21 @@
     <link rel="stylesheet" type="text/css" href="style_dom17.css"/>
 </head>
 <body>
-    <div id="div_data" class="div_data"></div>
-    <div id="div_relogio" class="div_relogio"><strong>00:00:00</strong></div>
+    <div id="timer" class="timer"> 
+        <div id="div_data" class="div_data"></div>
+        <div id="div_relogio" class="div_relogio"><strong>00:00:00</strong></div>
+        <div id="def_alarme" class="def_alarme">
+            <label id="hora_alarme">Hora do Alarme:</label><br/>
+            <label for="tmp_alarme">Tempo do alarme (segundos)</label>
+            <input type="number" name="tmp_alarme" id="tmp_alarme" value="0" min="0">
+        </div>
+        <div id="comandos" class="comandos">
+            <button id="btn_ativar">Ativar</button>
+            <button id="btn_parar">Parar</button>
+        </div>
+    </div>
     
-    <script src="ManipulacaoDatas.js"></script>
+    <!-- <script src="ManipulacaoDatas.js"></script> -->
+    <script src="Alarme.js"></script>
 </body>
 </html>
