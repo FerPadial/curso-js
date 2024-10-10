@@ -1,4 +1,5 @@
 //retorna a posição e o tamanho dos elementos
+//Accesskey - permite definir uma tecla de atalho p/ um componente html
 
 const q1=document.getElementById("q1")
 const q2=document.getElementById("q2")
@@ -9,6 +10,15 @@ const altura=document.getElementById("altura")
 
 // let DOMRect_q1 = q1.getBoundingClientRect()
 // let DOMRect_q2 = q2.getBoundingClientRect()
+
+//definindo uma tecla de atalho
+q1.accessKey="b"  //pra conseguir utilizar utiliza ALT + b
+q2.accessKey="n" //pra conseguir utilizar utiliza ALT + n
+
+console.log("q1: "+q1.accessKey)
+console.log("q2: "+q2.accessKey)
+
+
 
 const info=(el)=>{
     let DOMRect_q = el.getBoundingClientRect()
