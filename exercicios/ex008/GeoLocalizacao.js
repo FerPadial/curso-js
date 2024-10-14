@@ -17,3 +17,6 @@ function mostrarLocalizacao(pos){
 function erroLocalizacao(){
     console.log("Erro ao obter a localização")
 }
+
+
+
