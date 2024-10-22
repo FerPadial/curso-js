@@ -23,6 +23,8 @@ const obterDados=()=>{
 //     obterDados()
 // })
 
+// AQUI PRECISA UTILIZAR O NODE-RED - EXECUTAR O PROMPT COMO ADMIN E RODAR NODE-RED ai acessar a aplicação NODE-RED pelo ip Porta => 127.0.0.1:1880 
+
 
 let dados = {
     nome: "Bruno",
