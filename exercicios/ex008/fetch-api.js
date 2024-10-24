@@ -4,7 +4,8 @@ const p_press=document.getElementById("p_press")
 const btn_texto=document.getElementById("btn_texto")
 
 const obterDados=()=>{
-    const endpoint="https://cbf16bae-76bb-4a28-a9f8-f9227ddfa204-00-3l882ep6j1n8f.worf.replit.dev/"
+    // const endpoint="https://cbf16bae-76bb-4a28-a9f8-f9227ddfa204-00-3l882ep6j1n8f.worf.replit.dev/"
+    const endpoint="http://127.0.0.1:1880/cfbcursos"
     fetch(endpoint,{method:"get"})
 
     // .then(res=>console.log(res))
@@ -38,7 +39,8 @@ let cabechalho={
 }
 
 const gravarDados=()=>{
-    const endpoint="https://cbf16bae-76bb-4a28-a9f8-f9227ddfa204-00-3l882ep6j1n8f.worf.replit.dev/"
+    // const endpoint="https://cbf16bae-76bb-4a28-a9f8-f9227ddfa204-00-3l882ep6j1n8f.worf.replit.dev/"
+    const endpoint="http://127.0.0.1:1880/gravar"
     fetch(endpoint,cabechalho)
     .then(res=>res.json())
     .then(ret=>{

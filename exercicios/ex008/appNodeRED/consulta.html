@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WebApp - Node-RED</title>
-    <link rel="stylesheet" href="estilo.css">
+    <link rel="stylesheet" type="text/css" href="estilo.css">
 </head>
 <body>
     <div class="topo">
@@ -17,5 +17,27 @@
     </div>
     <h1>CFB - Cursos - WebApp - Node-RED</h1>
     <h2>Consultar Registro</h2>
+
+    <!-- vai precisar fazer a consulta em uma API e obter a resposta -->
+    <div id="filtro">
+
+    </div>
+    <div id="dados">
+
+    </div>
+
+    <script type="text/javascript">
+        const obterTodosRegistros=async()=>{
+            const resp=await fetch('http://127.0.0.1:1880/todosRegistros')
+            const respJson=await resp.json()
+            
+            respJson.map((dado)=>{
+                document.getElementById("dados").innerHTML += "<div>ID: " + dados.id + " - NOME: " + dado.nome + " - TELEFONE: " + dado.telefone+"</div>"
+            })
+        }
+
+        obterTodosRegistros()
+
+    </script>
 </body>
 </html>

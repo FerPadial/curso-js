@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- <link rel="stylesheet" href="estilo33.css"> -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>  <!--Biblioteca do chartjs.org -->
+</head>
+<body>
+    <div style="width: 3000px; height: 500px;"> 
+        <canvas id="grafico1"></canvas>
+    </div>
+    
+    <script>
+        const ctx = document.getElementById('grafico1');
+      
+        let labelsx=["Disponibilidade","Qualidade","Performance"]
+        let valores=[0,0,0]
+
+        let grafico1 = new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: labelsx,
+            datasets: [{
+              label: '# of Votes',
+              data: valores,
+              borderWidth: 1
+            }]
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
+
+      const obterDados=()=>{
+        const endpoint = "http://localhost:8080/"
+        fetch(endpoint)
+        .then(res=>res.json())
+        .then(res=>{
+          valores[0]=res.disponibilidade
+          valores[1]=res.qualidade
+          valores[2]=res.performance
+
+          console.log(res.disponibilidade)
+          console.log(res.qualidade)
+          console.log(res.performance)
+
+          grafico1.update()
+        })
+        .catch(erro=>{
+          console.log("ERRO: " + erro)
+        })
+      }
+
+      let intervalo = setInterval(obterDados,  3000)
+
+    </script>
+    
+      
+
+</body>
+</html>
