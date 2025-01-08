@@ -1,14 +1,23 @@
+import {Cxmsg} from "./cxmsg.js"
+
 const config={
-    titulo:"Teste",
-    texto:"CFB Cursos",
     cor:"#48f"
 }
 
-
-const cxmsg=new Cxmsg(config)
+Cxmsg.config(config)
 
 const btn_mostrarcxmsg=document.querySelector('#btn_mostrarcxmsg')
+const btn_mostrarcxmsg2=document.querySelector('#btn_mostrarcxmsg2')
+const btn_mostrarcxmsg3=document.querySelector('#btn_mostrarcxmsg3')
 
-btn_mostrarcxmsg.addEventListener("click",(evt)=>{
-    cxmsg.mostrar()
+btn_mostrarcxmsg.addEventListener("click",()=>{
+    Cxmsg.mostrar("CFB Cursos","Curso de JavaScript")
+})
+
+btn_mostrarcxmsg2.addEventListener("click",()=>{
+    Cxmsg.mostrar("Youtube","Canal com Cursos de Programação")
+})
+
+btn_mostrarcxmsg3.addEventListener("click",()=>{
+    Cxmsg.mostrar("JavaScript","Aula demonstrando criação de caixa de mensagem")
 })
