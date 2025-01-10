@@ -5,16 +5,21 @@ class Login{
     static nomelogado=null;
     static acessologado=null;
     static estilocss=null;
+    static callback_ok=null;
+    static callback_nok=null;
     static config={
         cor: "#048",
         img: "../imagens/olho.JPG"
     };
     
     //Criando o metodo da classe
-    static login=(config=null)=>{
+    static login=(callback_ok,callback_nok,config=null)=>{
         if(config!=null){
             this.config=config;
         }
+
+        this.callback_ok=()=>{callback_ok()};
+        this.callback_nok=()=>{callback_nok()};
 
         this.estilocss=
         ".fundoLogin {display: flex;justify-content: center;align-items: center;width: 100%;height: 100vh;position: absolute;top: 0px;left: 0px;background-color: rgba(0,0,0,0.75);box-sizing: border-box;}"+
@@ -28,6 +33,7 @@ class Login{
         ".botoesLogin{display: flex;justify-content: space-around;align-items: center;width: 97%;box-sizing: inherit;}"+
         `.botoesLogin button{cursor: pointer;background-color: ${this.config.cor};color: #fff;border-radius: 5px;padding: 10px;width: 100px;box-sizing: inherit;}`;
 
+        // GERANDO O HTML DENTRO DO JAVASCRIPT
         // <link rel="stylesheet" type="text/css" href="estilo40.css">
         const styleEstilo=document.createElement("style");
         styleEstilo.setAttribute("id","id_estiloLogin")
@@ -138,6 +144,7 @@ class Login{
                 this.matlogado=mat;
                 this.nomelogado=res.nome;
                 this.acessologado=res.acesso;
+                this.callback_ok();
                 this.fechar();
 
             } else {
@@ -145,15 +152,14 @@ class Login{
                 this.matlogado=null;
                 this.nomelogado=null;
                 this.acessologado=null;
-                alert("Login não efetuado! Username ou Senha incorretos.");
+                
+                this.callback_nok();
+
             }
 
 
         })
 
-
-
-        return (mat=="123" && pas=="321");
     }
 
     static fechar=()=>{
@@ -164,5 +170,5 @@ class Login{
     }
 
 }
-export {Login};
+//export {Login};  para disponibilizar via servidor CDN deixa de ser um modulo
 

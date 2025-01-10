@@ -10,7 +10,7 @@ class CxTPmsg{
         // console.log("mostra caixa de msg! " + this.texto) - area toda da janela
         this.cor=config.cor
         this.tipo=config.tipo
-        this.comando_sn=()=>{config.comando_sn()}
+        //this.comando_sn=()=>{config.comando_sn()}
         this.textos=config.textos
 
         this. destino=document.body
@@ -26,7 +26,8 @@ class CxTPmsg{
             "left: 0px;"+
             "width: 100%;"+
             "height: 100vh;"+
-            "background-color: rgb(0,0,0,0.7);"
+            "background-color: rgb(0,0,0,0.7);"+
+            "z-index:999999999999";
         this.divmsg.setAttribute("id","divmsg")
         this.divmsg.setAttribute("style",estilo_divmsg)
         this.destino.prepend(this.divmsg)
@@ -96,6 +97,7 @@ class CxTPmsg{
         btn_ok.innerHTML = "OK"
         btn_ok.addEventListener("click",(evt)=>{
             this.ocultar()
+            //this.comando_sn()
         })
         rodapeCxmsg.appendChild(btn_ok)
     }else if(this.tipo=="sn"){
