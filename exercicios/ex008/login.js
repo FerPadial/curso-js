@@ -9,16 +9,12 @@ class Login{
         cor: "#048",
         img: "../imagens/olho.JPG"
     };
-    static endpoint="https://2e790ad7-f96e-4e43-aeb8-2e58744aa4c6-00-zxiuoxj8cgrj.riker.replit.dev/";
-    //https://2e790ad7-f96e-4e43-aeb8-2e58744aa4c6-00-zxiuoxj8cgrj.riker.replit.dev/
-
+    
     //Criando o metodo da classe
-    static login=(mat,pas,config=null)=>{
+    static login=(config=null)=>{
         if(config!=null){
             this.config=config;
         }
-        
-        this.endpoint+=`?matricula=${mat}&senha=${pas}`;
 
         this.estilocss=
         ".fundoLogin {display: flex;justify-content: center;align-items: center;width: 100%;height: 100vh;position: absolute;top: 0px;left: 0px;background-color: rgba(0,0,0,0.75);box-sizing: border-box;}"+
@@ -103,6 +99,7 @@ class Login{
             const btnLogin=document.createElement("button");
             btnLogin.setAttribute("id","btnLogin")
             btnLogin.innerHTML="Login"
+            btnLogin.addEventListener("click",(evt)=>{this.verificaLogin()})
             botoesLogin.appendChild(btnLogin)
 
             //           <button id="btn_cancelar">Cancelar</button> ok
@@ -123,31 +120,47 @@ class Login{
             imgLogoLogin.setAttribute("src",this.config.img)
             imgLogoLogin.setAttribute("title","CFBCursos")
             logoLogin.appendChild(imgLogoLogin)
+    }
 
-        // //consumir o endpoint 
-        // fetch(this.endpoint)
-        // .then(res=>res.json())
-        // .then(res=>{
-        //     if(res){
-        //         this.logado=true;
-        //         this.matlogado=mat;
-        //         this.nomelogado=res.nome;
-        //         this.acessologado=res.acesso;
+    static verificaLogin=()=>{
+        const mat = document.querySelector("#f_Username").value;
+        const pas = document.querySelector("#f_senha").value;
 
-        //         console.log(res)
-        //     } else {
-        //         console.log("Usuário não encontrado!")
-        //     }
-        // })
+        const endpoint=`https://2e790ad7-f96e-4e43-aeb8-2e58744aa4c6-00-zxiuoxj8cgrj.riker.replit.dev/?matricula=${mat}&senha=${pas}`;
+        //https://2e790ad7-f96e-4e43-aeb8-2e58744aa4c6-00-zxiuoxj8cgrj.riker.replit.dev/
+
+        //consumir o endpoint 
+        fetch(endpoint)
+        .then(res=>res.json())
+        .then(res=>{
+            if(res){
+                this.logado=true;
+                this.matlogado=mat;
+                this.nomelogado=res.nome;
+                this.acessologado=res.acesso;
+                this.fechar();
+
+            } else {
+                this.logado=false;
+                this.matlogado=null;
+                this.nomelogado=null;
+                this.acessologado=null;
+                alert("Login não efetuado! Username ou Senha incorretos.");
+            }
+
+
+        })
+
+
+
+        return (mat=="123" && pas=="321");
     }
 
     static fechar=()=>{
         const fundoLogin=document.querySelector("#fundoLogin");
         fundoLogin.remove();
-        const id_estiloLogin=document.querySelector("#botoesLogin");
+        const id_estiloLogin=document.querySelector("#id_estiloLogin");
         id_estiloLogin.remove();
-
-
     }
 
 }
