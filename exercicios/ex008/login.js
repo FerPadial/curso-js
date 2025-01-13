@@ -136,12 +136,14 @@ class Login{
         const endpoint=`${this.config.endpoint}/?matricula=${mat}&senha=${pas}`;
         //https://2e790ad7-f96e-4e43-aeb8-2e58744aa4c6-00-zxiuoxj8cgrj.riker.replit.dev/
 
+
+        console.log(this.endpoint);
+
         //consumir o endpoint 
         fetch(endpoint)
         .then(res=>res.json())
         .then(res=>{
             if(res){
-                alert("Entrou aqui!");
                 sessionStorage.setItem("logado", "true");
                 sessionStorage.setItem("matlogado", mat);
                 sessionStorage.setItem("nomelogado",res.nome);
