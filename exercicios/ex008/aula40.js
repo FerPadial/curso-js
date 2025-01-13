@@ -1,4 +1,4 @@
-//import { Login } from "./login.js";  ==> agora vem via distribuição de conteudo CDN no www.jsdelivr.com - o link do modulo login.js está no sciprt do HTML em um endpoint
+import { Login } from "./login.js";  //==> agora vem via distribuição de conteudo CDN no www.jsdelivr.com - o link do modulo login.js está no sciprt do HTML em um endpoint
 import { CxTPmsg } from "./cxTPmsg.js";
 
 const callback_ok=()=>{}

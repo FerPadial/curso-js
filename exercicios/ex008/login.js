@@ -15,6 +15,12 @@ class Login{
     
     //Criando o metodo da classe
     static login=(callback_ok,callback_nok,config=null)=>{
+        //LIMPA SESSÃO
+        sessionStorage.setItem("logado", "false");
+        sessionStorage.setItem("matlogado", "");
+        sessionStorage.setItem("nomelogado","");
+        sessionStorage.setItem("acessologado", "");
+        
         if(config!=null){
             this.config=config;
         }
@@ -106,14 +112,26 @@ class Login{
             const btnLogin=document.createElement("button");
             btnLogin.setAttribute("id","btnLogin")
             btnLogin.innerHTML="Login"
-            btnLogin.addEventListener("click",(evt)=>{this.verificaLogin()})
+            btnLogin.addEventListener("click",(evt)=>{
+            
+                this.verificaLogin()
+            
+            })
             botoesLogin.appendChild(btnLogin)
 
             //           <button id="btn_cancelar">Cancelar</button> ok
             const btnCancelar=document.createElement("button");
             btnCancelar.setAttribute("id","btnCancelar")
             btnCancelar.innerHTML="Cancelar"
-            btnCancelar.addEventListener("click",(evt)=>{this.fechar()});
+            btnCancelar.addEventListener("click",(evt)=>{
+                //LIMPA SESSÃO
+                sessionStorage.setItem("logado", "false");
+                sessionStorage.setItem("matlogado", "");
+                sessionStorage.setItem("nomelogado","");
+                sessionStorage.setItem("acessologado", "");
+
+                this.fechar()
+            });
             botoesLogin.appendChild(btnCancelar)
 
         //    <div id="logoLogin" class="logoLogin"> 
@@ -152,10 +170,6 @@ class Login{
                 this.fechar();
 
             } else {
-                sessionStorage.setItem("logado", "false");
-                sessionStorage.setItem("matlogado", "");
-                sessionStorage.setItem("nomelogado","");
-                sessionStorage.setItem("acessologado", "");
                 
                 this.callback_nok();
 
@@ -174,7 +188,7 @@ class Login{
     }
 
 }
-//export {Login};  para disponibilizar via servidor CDN deixa de ser um modulo
+export {Login};  //para disponibilizar via servidor CDN deixa de ser um modulo
 
 // var http = require('http');
 // var url = require('url');
