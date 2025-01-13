@@ -141,6 +141,7 @@ class Login{
         .then(res=>res.json())
         .then(res=>{
             if(res){
+                alert("Entrou aqui!");
                 sessionStorage.setItem("logado", "true");
                 sessionStorage.setItem("matlogado", mat);
                 sessionStorage.setItem("nomelogado",res.nome);
