@@ -8,8 +8,9 @@ class Login{
     static callback_ok=null;
     static callback_nok=null;
     static config={
-        cor: "#048",
-        img: "../imagens/olho.JPG"
+        cor: null,  //"#048",
+        img: null,  //"../imagens/olho.JPG"
+        endpoint: null, //"https://2e790ad7-f96e-4e43-aeb8-2e58744aa4c6-00-zxiuoxj8cgrj.riker.replit.dev/?matricula=123&senha=321"
     };
     
     //Criando o metodo da classe
@@ -132,7 +133,7 @@ class Login{
         const mat = document.querySelector("#f_Username").value;
         const pas = document.querySelector("#f_senha").value;
 
-        const endpoint=`https://2e790ad7-f96e-4e43-aeb8-2e58744aa4c6-00-zxiuoxj8cgrj.riker.replit.dev/?matricula=${mat}&senha=${pas}`;
+        const endpoint=`${this.config.endpoint}/?matricula=${mat}&senha=${pas}`;
         //https://2e790ad7-f96e-4e43-aeb8-2e58744aa4c6-00-zxiuoxj8cgrj.riker.replit.dev/
 
         //consumir o endpoint 
@@ -140,18 +141,18 @@ class Login{
         .then(res=>res.json())
         .then(res=>{
             if(res){
-                this.logado=true;
-                this.matlogado=mat;
-                this.nomelogado=res.nome;
-                this.acessologado=res.acesso;
+                sessionStorage.setItem("logado", "true");
+                sessionStorage.setItem("matlogado", mat);
+                sessionStorage.setItem("nomelogado",res.nome);
+                sessionStorage.setItem("acessologado", res.acesso);
                 this.callback_ok();
                 this.fechar();
 
             } else {
-                this.logado=false;
-                this.matlogado=null;
-                this.nomelogado=null;
-                this.acessologado=null;
+                sessionStorage.setItem("logado", "false");
+                sessionStorage.setItem("matlogado", "");
+                sessionStorage.setItem("nomelogado","");
+                sessionStorage.setItem("acessologado", "");
                 
                 this.callback_nok();
 
@@ -172,3 +173,29 @@ class Login{
 }
 //export {Login};  para disponibilizar via servidor CDN deixa de ser um modulo
 
+// var http = require('http');
+// var url = require('url');
+// var request = require('request');
+// http.createServer(function(req,res){
+//   res.setHeader('Access-Control-Allow-Origin','*');
+//   res.writeHead(200,{'Content-Type':'application/json'});
+
+//   let parametros=url.parse(req.url,true);
+
+//   let mat=parametros.query.matricula;
+//   let pas=parametros.query.senha;
+
+//   let dados=null;
+
+//   if(mat=='123' && pas=='321'){
+//     dados = {
+//       nome: 'Bruno',
+//       acesso:10
+//     }
+//   }
+
+//   res.end(JSON.stringify(dados));
+// }).listen(8080);
+
+// Exemplo de chamada
+//https://2e790ad7-f96e-4e43-aeb8-2e58744aa4c6-00-zxiuoxj8cgrj.riker.replit.dev/?matricula=123&senha=321

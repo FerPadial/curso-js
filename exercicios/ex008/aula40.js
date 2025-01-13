@@ -8,11 +8,15 @@ const callback_nok=()=>{
         cor: "#800",
         tipo:"ok",
         textos:null,
-        comando_sn:null,
+        comando_sn:()=>{},
     }
     CxTPmsg.mostrar(config,"Login - Erro:","Login não efetuado! Usuário ou senha incorretos.");
 }
 
-
-Login.login(callback_ok,callback_nok);
+const configlogin={
+    cor: "#048",
+    img: "../imagens/olho.JPG",
+    endpoint:"https://2e790ad7-f96e-4e43-aeb8-2e58744aa4c6-00-zxiuoxj8cgrj.riker.replit.dev",
+}
+Login.login(callback_ok,callback_nok,configlogin);
 
