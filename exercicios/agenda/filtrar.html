@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript - Agenda</title>
+    <link rel="stylesheet" type="text/css" href="agenda.css">
+</head>
+<body>
+    <div id="fundopopup" class="fundopopup ocultar">
+        <div id="janelapopup" class="janelapopup">
+            <div id="titulopopup" class="titulopopup">Editar Contato</div>
+            <div id="principalpopup" class="principalpopup">
+                <div class="campoForm">
+                    <label >ID</label>
+                    <input type="text" name="f_id" id="f_id" readonly style="cursor: not-allowed;">
+                </div>           
+                <div class="campoForm">
+                    <label for="f_nome">Nome</label>
+                    <input type="text" name="f_nome" id="f_nome">
+                </div>
+                <div class="campoForm">
+                    <label for="f_celular">Celular</label>
+                    <input type="text" name="f_celular" id="f_celular" type="tel">
+                </div>
+                <div class="campoForm">
+                    <label for="f_email">e-mail</label>
+                    <input type="text" name="f_email" id="f_email" type="email">
+                </div>
+                <div class="campoForm">
+                    <label for="f_dtnasc">Data de Nascimento</label>
+                    <input type="text" name="f_dtnasc" id="f_dtnasc" type="date">
+                </div>
+            </div>
+            <div id="rodapepopup" class="rodapepopup">
+                <button class="btn_geral" id="btn_gravar">Gravar</button>
+                <button class="btn_geral" id="btn_cancelar">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+
+    <h2>Filtrar</h2>
+
+    <div id="filtro" class="filtro">
+        <div class="campoForm">
+            <label for="f_filtronome">Nome</label>
+            <input type="text" name="f_filtronome" id="f_filtronome">
+        </div>
+        <div class="campoForm">
+            <img src="../imagens/filter.svg" class="iconefiltro" id="btn_filtragem">
+        </div>
+
+    </div>
+
+    <div id="dgvg" class="dgvg">
+        <div id="resultadog" class="resultadog">
+            <div id="titulosg" class="titulosg">
+                <div class="titulog cg1">id</div>
+                <div class="titulog cg2">nome</div>
+                <div class="titulog cg3">celular</div>
+                <div class="titulog cg4">email</div>
+                <div class="titulog cg5">Dt Nasc</div>
+                <div class="titulog cg6">Operações</div>
+            </div>
+            <div id="dadosg" class="dadosg">
+
+            </div>
+        </div>
+    </div>
+
+    <script src="filtrar.js" type="module"></script>
+
+</body>
+</html>

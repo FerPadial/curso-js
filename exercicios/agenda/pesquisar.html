@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript - Agenda</title>
+    <link rel="stylesheet" type="text/css" href="agenda.css">
+    <script>
+        function cargaTela(){
+            document.querySelector("#f_txtpesq").value="";
+            document.querySelector("#f_txtpesq").focus();
+        }
+    </script>
+</head>
+<body onLoad="cargaTela()">
+    <div id="pesquisa" class="pesquisa">
+        <div class="campoPesq">
+            <label for="f_pesq">ID</label>
+            <input type="radio" name="f_pesq" value="id">
+        </div>
+        <div class="campoPesq">
+            <label for="f_pesq">Nome</label>
+            <input type="radio" name="f_pesq" value="nome" checked>
+        </div>
+        <div class="campoPesq">
+            <label for="f_pesq">e-mail</label>
+            <input type="radio" name="f_pesq" value="email" >
+        </div>
+        <div class="campoPesq">
+            <label for="f_pesq">Data Nascimento</label>
+            <input type="radio" name="f_pesq" value="nasc" >
+        </div>
+        <div class="campoPesq">
+            <label for="f_pesq">Pesquisar</label>
+            <input type="text" id="f_txtpesq" name="f_txtpesq">
+        </div>
+        <div class="campoPesq"></div>
+            <button id="btn_pesq" class="btn_geral">Pesquisar</button>
+        </div>
+    </div>
+
+    <div id="dgv" class="dgv">
+        <div id="resultado" class="resultado">
+            <div id="titulos" class="titulos">
+                <div class="titulo c1">id</div>
+                <div class="titulo c2">nome</div>
+                <div class="titulo c3">celular</div>
+                <div class="titulo c4">email</div>
+                <div class="titulo c5">Dt Nasc</div>
+            </div>
+            <div id="dados" class="dados">
+                <!-- <div class="linhadados">
+                    <div class="coluna c1">id</div>
+                    <div class="coluna c2">nome</div>
+                    <div class="coluna c3">celular</div>
+                    <div class="coluna c4">email</div>
+                    <div class="coluna c5">Dt Nasc</div>
+                </div> -->
+            </div>
+        </div>
+    </div>
+
+    <script src="pesquisar.js" type="module"></script>
+</body>
+</html>
