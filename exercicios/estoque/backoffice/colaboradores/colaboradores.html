@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colaboradores - BackOffice</title>
+    <link rel="stylesheet" type="text/css" href="../../estoque_geral.css">
+    <link rel="stylesheet" type="text/css" href="colaboradores.css">
+</head>
+<body>
+    <div id="topoJanela" class="topoJanela">
+        <div></div>
+        <div>Colaboradores</div>
+        <div>
+            <img src="../../imgs/pesquisar.svg" id="btn_pesq" class="btn_mainoper" title="Pesquisar colaborador">  <!--Aqui é para o modelo de pesquisa usando backend-->
+            <img src="../../imgs/listartodos.svg" id="btn_listartudo" class="btn_mainoper" title="Listar todos os colaboradores">
+            <img src="../../imgs/add.svg" id="btn_add" class="btn_mainoper" title="Adicionar novo colaborador">
+        </div>
+    </div>
+
+    <div id="filtragem" class="filtragem">
+        <div class="campoForm campoFiltragem">
+            <label for="f_filtragem">Filtrar por nome</label>
+            <input type="text" id="f_filtragem" name="f_filtragem" class="inputFiltragem">
+        </div>
+    </div>
+
+    <!-- Parte do popup de pesquisa usando Backend -->
+    <div id="pesquisa" class="popup ocultarPopup">
+        <div class="janelaPopup">
+            <div class="tituloPopup">
+                <div id="tituloPopupPesquisar">Pesquisar</div>
+                <img src="../../imgs/close.svg" title="Fechar" class="btn_janelaOper" id="btn_fecharPopupPesq">
+            </div>
+            <div class="corpoPopup">
+                <div class="campoForm">
+                    <label>Tipo da pesquisa</label>
+                    <div class="campoRadioPesq">
+                        <input type="radio" id="f_pesqId" name="f_pesqTipo" checked>ID
+                        <input type="radio" id="f_pesqNome" name="f_pesqTipo">Nome
+                    </div>
+                </div>
+                <div class="campoForm">
+                    <input type="text" id="f_pesq" name="f_pesq">
+                </div>  
+            </div>
+            <div class="rodapePopup">
+                <button id="btn_pesquisar" class="btn_comandoPopup">Pesquisar</button>
+
+            </div>
+        </div>
+    </div>
+    <!-- **************************************** -->
+
+
+    <div id="novoColaborador" class="popup ocultarPopup">
+        <div class="janelaPopup">
+            <div class="tituloPopup">
+                <div id="tituloPopup">Novo Colaborador</div>
+                <img src="../../imgs/close.svg" title="Fechar" class="btn_janelaOper" id="btn_fecharPopup">
+            </div>
+            <div class="corpoPopup">
+                <div class="campoForm">
+                    <label for="f_nome">Nome Colaborador</label>
+                    <input type="text" id="f_nome" name="f_nome">
+                </div>
+                <div class="campoForm">
+                    <label for="f_tipoColab">Tipo Colaborador</label>
+                    <select id="f_tipoColab" name="f_tipoColab">
+                        <option>Teste</option>
+                    </select>
+                </div>                
+                <div class="campoForm">
+                    <label for="f_status">Status Colaborador</label>
+                    <select id="f_status" name="f_status">
+                        <option value="A">Ativo</option>
+                        <option value="I">Inativo</option>
+                    </select>
+                </div>                
+                <div class="campoForm">
+                    <label for="f_foto">Foto</label>
+                    <input type="file" accept="image/png, image/jpeg, image/jpg" id="f_foto" name="f_foto">
+                </div>  
+                <div class="campoForm2">
+                    <img src="#" id="img_foto" class="img_foto">
+                </div>  
+                <div class="campoForm">
+                    <label for="f_telefone">Telefone</label>
+                    <input type="text" id="f_telefone" name="f_telefone"  title="Somente números, sem espaços!">
+                    <div id="telefones" class="telefones">
+                        <div class="tel">
+                            <!-- <div class="numTel">(11)8888-8888</div>
+                            <img src="../../imgs/delete.svg" class="delTel" title="Exclui Telefone"> -->
+                            <!-- <div class="delTel">x</div> -->
+                        </div>
+                    </div>
+                </div>                
+            </div>
+            <div class="rodapePopup">
+                <button id="btn_gravarPopup" class="btn_comandoPopup">Gravar</button>
+                <button id="btn_cancelarPopup" class="btn_comandoPopup">Cancelar</button>
+
+            </div>
+        </div>
+    </div>
+
+    <div id="areaGrid" class="areaGrid">
+        <div id="grid" class="grid">
+            <div id="tituloGrid" class="tituloGrid">
+                <div class="colunaTituloGrid c1">ID</div>
+                <div class="colunaTituloGrid c2">Nome</div>
+                <div class="colunaTituloGrid c3">Tipo</div>
+                <div class="colunaTituloGrid c4">Status</div>
+                <div class="colunaTituloGrid c5">Operações</div>
+            </div>
+            <div id="dadosGrid" class="dadosGrid">
+                <!--
+                    <div class="linhaGrid">
+                        <div class="linhaTituloGrid c1">ID</div>
+                        <div class="linhaTituloGrid c2">Nome</div>
+                        <div class="linhaTituloGrid c3">Tipo</div>
+                        <div class="linhaTituloGrid c4">Status</div>
+                        <div class="linhaTituloGrid c5">Operações</div>
+                    </div>
+                -->
+            </div>
+        </div>
+    </div>
+
+
+    <script src="../../estoque_geral.js" type="module"></script>
+    <script src="colaboradores.js" type="module"></script>
+</body>
+</html>
