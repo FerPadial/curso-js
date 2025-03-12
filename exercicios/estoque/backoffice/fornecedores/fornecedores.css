@@ -1,0 +1,41 @@
+body{
+    /* overflow: auto !important;  => se precisar de barra de rolagem vai aparecer automaticamente */
+    overflow: hidden !important;   /* Hiddel para não mostra a barra de rolagem no body como um todo*/
+}
+
+.c1{
+    width: 100px;
+}
+.c2{
+    width: 300px;
+}
+.c3{
+    width: 100px;
+}
+/* .c4{
+    width: 100px;
+} */
+.c4{
+    width: 110px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.c1_lcf{
+    width: 50px;
+}
+.c2_lcf{
+    width: 540px;
+}
+.c3_lcf{
+    width: 100px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.img_foto{
+    width: 75px;
+    height: 100px;
+    border: 1px solid #fff;
+    border-radius: 5px;
+}

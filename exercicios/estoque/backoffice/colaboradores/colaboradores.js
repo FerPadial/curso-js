@@ -1,3 +1,5 @@
+import {Cxmsg} from "../../utils/cxmsg.js";
+
 const dadosGrid=document.querySelector("#dadosGrid");
 const btn_add=document.querySelector("#btn_add");
 const novoColaborador=document.querySelector("#novoColaborador");
@@ -45,6 +47,8 @@ btn_fecharPopupPesq.addEventListener("click",(evt)=>{
     pesquisa.classList.add("ocultarPopup");
 })
 btn_pesq.addEventListener("click",(evt)=>{
+    f_pesq.value="";
+    f_pesq.focus();
     pesquisa.classList.remove("ocultarPopup");
 })
 f_pesqId.addEventListener("click",(evt)=>{
@@ -63,14 +67,36 @@ btn_pesquisar.addEventListener("click",(evt)=>{  //Essa pesquisa será via backe
         fetch(endpointpesq)
         .then(res=>res.json())
         .then(res=>{
-            console.log(res)
+            //console.log(res)
+            dadosGrid.innerHTML="";
+            res.forEach(e=>{
+                criarLinha(e);
+            })            
         })
         pesquisa.classList.add("ocultarPopup");
     }else{
-        alert("Preencha o campo de pesquisa.");
+        //caixa de mensagem desenvolvida em outro JS mas importada para este => metodo import
+        const config={
+            titulo:"Alerta",
+            texto:"Digite a informação que deseja pesquisar!",
+            cor:"rgba(90, 90, 253, 0.92)",
+            tipo:"ok",
+            ok:()=>{
+                console.log("OK clicado!");
+                f_pesq.focus();
+            },
+            sim:()=>{console.log("SIM clicado!");},
+            nao:()=>{console.log("NÃO clicado!");}
+        }
+        Cxmsg.mostrar(config);
+        //alert("Preencha o campo de pesquisa.");
         f_pesq.focus();
     }
 });
+
+btn_listartudo.addEventListener("click",(ev)=>{
+    carga();
+})
 
 const criarCxTelefone=(fone,idtel,tipo)=>{
     const divTel=document.createElement("div");
@@ -102,7 +128,20 @@ const criarCxTelefone=(fone,idtel,tipo)=>{
                     if(res.status==200){
                         ev.target.parentNode.remove(); //elimino o pai da div da lixeira parentNode
                     }else{
-                        alert("Não foi possível remover o telefone!")
+                        const config={
+                            titulo:"Alerta",
+                            texto:"Não foi possível remover o telefone!",
+                            cor:"rgba(90, 90, 253, 0.92)",
+                            tipo:"ok",
+                            ok:()=>{
+                                console.log("OK clicado!");
+                            },
+                            sim:()=>{console.log("SIM clicado!");},
+                            nao:()=>{console.log("NÃO clicado!");}
+                        }
+                        Cxmsg.mostrar(config);
+                
+                        // alert("Não foi possível remover o telefone!")
                     }
                 })
             }
@@ -115,115 +154,126 @@ const criarCxTelefone=(fone,idtel,tipo)=>{
     telefones.appendChild(divTel);
 }
 
-const carga=()=>{
-    const endpoint_todoscolaboradores=`${serv}/todosusuarios`;
-    fetch(endpoint_todoscolaboradores)
-    .then(res=>res.json())
-    .then(res=>{
-        // console.log(res);
-        dadosGrid.innerHTML="";
-        res.forEach(e=>{
-            const divlinha=document.createElement("div");
-            divlinha.setAttribute("class","linhaGrid");
+const criarLinha=(e)=>{
+    const divlinha=document.createElement("div");
+    divlinha.setAttribute("class","linhaGrid");
 
-            const divc1=document.createElement("div");
-            divc1.setAttribute("class","colunaLinhaGrid c1");
-            divc1.innerHTML = e.n_usuario_usuario;
-            divlinha.appendChild(divc1);
+    const divc1=document.createElement("div");
+    divc1.setAttribute("class","colunaLinhaGrid c1");
+    divc1.innerHTML = e.n_pessoa_pessoa;
+    divlinha.appendChild(divc1);
 
-            const divc2=document.createElement("div");
-            divc2.setAttribute("class","colunaLinhaGrid c2");
-            divc2.innerHTML = e.s_nome_usuario;
-            divlinha.appendChild(divc2);
+    const divc2=document.createElement("div");
+    divc2.setAttribute("class","colunaLinhaGrid c2");
+    divc2.innerHTML = e.s_nome_pessoa;
+    divlinha.appendChild(divc2);
 
-            const divc3=document.createElement("div");
-            divc3.setAttribute("class","colunaLinhaGrid c3");
-            divc3.innerHTML = e.n_tipousuario_tipousuario;
-            divlinha.appendChild(divc3);
+    const divc3=document.createElement("div");
+    divc3.setAttribute("class","colunaLinhaGrid c3");
+    divc3.innerHTML = e.n_tipopessoa_tipopessoa;
+    divlinha.appendChild(divc3);
 
-            const divc4=document.createElement("div");
-            divc4.setAttribute("class","colunaLinhaGrid c4");
-            divc4.innerHTML = e.c_status_usuario;
-            divlinha.appendChild(divc4);
+    const divc4=document.createElement("div");
+    divc4.setAttribute("class","colunaLinhaGrid c4");
+    divc4.innerHTML = e.c_status_pessoa;
+    divlinha.appendChild(divc4);
 
-            const divc5=document.createElement("div");
-            divc5.setAttribute("class","colunaLinhaGrid c5");
-            divlinha.appendChild(divc5);
+    const divc5=document.createElement("div");
+    divc5.setAttribute("class","colunaLinhaGrid c5");
+    divlinha.appendChild(divc5);
 
-            const img_status=document.createElement("img");
-            img_status.setAttribute("data-idcolab",e.n_usuario_usuario);
-            img_status.setAttribute("class","icone_op");
-            if(e.c_status_usuario=="A"){
-                img_status.setAttribute("src","../../imgs/on.svg");
+    const img_status=document.createElement("img");
+    img_status.setAttribute("data-idcolab",e.n_pessoa_pessoa);
+    img_status.setAttribute("class","icone_op");
+    if(e.c_status_pessoa=="A"){
+        img_status.setAttribute("src","../../imgs/on.svg");
+    }else{
+        img_status.setAttribute("src","../../imgs/off.svg");
+    }
+    let status_colab=e.c_status_pessoa;
+    img_status.addEventListener("click",(evt)=>{
+        const idcolab=evt.target.dataset.idcolab;  
+        status_colab=status_colab=="A"?"I":"A";
+        const endpoint_statuscolab=`${serv}/statuscolab/${idcolab}/${status_colab}`;
+        fetch(endpoint_statuscolab)
+        .then(req=>{
+            if(req.status==200){
+                divc4.innerHTML = status_colab;
+                if(status_colab=="A"){
+                    img_status.setAttribute("src","../../imgs/on.svg");
+                }else{
+                    img_status.setAttribute("src","../../imgs/off.svg");
+                }
             }else{
-                img_status.setAttribute("src","../../imgs/off.svg");
+                const config={
+                    titulo:"Alerta",
+                    texto:"Não foi possível atualizar o status da Pessoa!",
+                    cor:"rgba(90, 90, 253, 0.92)",
+                    tipo:"ok",
+                    ok:()=>{
+                        console.log("OK clicado!");
+                    },
+                    sim:()=>{console.log("SIM clicado!");},
+                    nao:()=>{console.log("NÃO clicado!");}
+                }
+                Cxmsg.mostrar(config);
+                // alert("Não foi possível atualizar o status do Colaborador!");
             }
-            let status_colab=e.c_status_usuario;
-            img_status.addEventListener("click",(evt)=>{
-                const idcolab=evt.target.dataset.idcolab;  
-                status_colab=status_colab=="A"?"I":"A";
-                const endpoint_statuscolab=`${serv}/statuscolab/${idcolab}/${status_colab}`;
-                fetch(endpoint_statuscolab)
-                .then(req=>{
-                    if(req.status==200){
-                        divc4.innerHTML = status_colab;
-                        if(status_colab=="A"){
-                            img_status.setAttribute("src","../../imgs/on.svg");
-                        }else{
-                            img_status.setAttribute("src","../../imgs/off.svg");
-                        }
-                    }else{
-                        alert("Não foi possível atualizar o status do Colaborador!");
-                    }
-                });
-            })
-            divc5.appendChild(img_status);
-
-            const img_editar=document.createElement("img");
-            img_editar.setAttribute("src","../../imgs/editar.svg")
-            img_editar.setAttribute("class","icone_op")
-            img_editar.addEventListener("click",(evt)=>{
-                const id=evt.target.parentNode.parentNode.firstChild.innerHTML;  //Buscando ID da linha do grid onde clicou no lapis
-                modojanela="e";
-                document.getElementById("tituloPopup").innerHTML="Editar Colaborador";
-
-                let  endpoint_dadoscolab=`${serv}/dadoscolab/${id}`;
-                fetch(endpoint_dadoscolab)
-                .then(res=>res.json())
-                .then(res=>{
-                    btn_gravarPopup.setAttribute("data-idcolab",id);   //guarda o valor do ID em um dataset do botão gravar pra ser recuperado na ação de update (editarcolab)
-                    f_nome.value=res[0].s_nome_usuario;
-                    f_tipoColab.value=res[0].n_tipousuario_tipousuario;
-                    f_status.value=res[0].c_status_usuario;
-                    //img_foto.setAttribute("src",res.s_foto_usuario);
-                    img_foto.src=res[0].s_foto_usuario;
-                });
-
-                endpoint_dadoscolab=`${serv}/telefonesColab/${id}`;
-                fetch(endpoint_dadoscolab)
-                .then(res=>res.json())
-                .then(res=>{
-                    telefones.innerHTML="";
-                    res.forEach(t=>{
-                        criarCxTelefone(t.s_numero_telefone,t.n_telefone_telefone,"e");
-                    })
-                });
-                novoColaborador.classList.remove("ocultarPopup");
-            });
-            divc5.appendChild(img_editar);
-
-            const img_remover=document.createElement("img");
-            img_remover.setAttribute("src","../../imgs/delete.svg")
-            img_remover.setAttribute("class","icone_op")
-            divc5.appendChild(img_remover);
-
-            dadosGrid.appendChild(divlinha);
-
-        })
+        });
     })
-};
+    divc5.appendChild(img_status);
 
-carga();
+    const img_editar=document.createElement("img");
+    img_editar.setAttribute("src","../../imgs/editar.svg")
+    img_editar.setAttribute("class","icone_op")
+    img_editar.addEventListener("click",(evt)=>{
+        const id=evt.target.parentNode.parentNode.firstChild.innerHTML;  //Buscando ID da linha do grid onde clicou no lapis
+        modojanela="e";
+        document.getElementById("tituloPopup").innerHTML="Editar Pessoa";
+
+        let  endpoint_dadoscolab=`${serv}/dadoscolab/${id}`;
+        fetch(endpoint_dadoscolab)
+        .then(res=>res.json())
+        .then(res=>{
+            btn_gravarPopup.setAttribute("data-idcolab",id);   //guarda o valor do ID em um dataset do botão gravar pra ser recuperado na ação de update (editarcolab)
+            f_nome.value=res[0].s_nome_pessoa;
+            f_tipoColab.value=res[0].n_tipopessoa_tipopessoa;
+            f_status.value=res[0].c_status_pessoa;
+            //img_foto.setAttribute("src",res.s_foto_pessoa);
+
+            if (res[0].s_foto_pessoa!="" && res[0].s_foto_pessoa!=null && res[0].s_foto_pessoa!="#"){
+                img_foto.src=res[0].s_foto_pessoa;
+                novoColaborador.classList.remove("ocultarPopup");
+                if(img_foto.src=="" || img_foto.src=="#"){
+                    img_foto.classList.add("esconderElemento");
+                }else{
+                    img_foto.classList.remove("esconderElemento");
+                }
+            }else{
+                img_foto.classList.add("esconderElemento");
+            }
+        });
+
+        endpoint_dadoscolab=`${serv}/telefonesColab/${id}`;
+        fetch(endpoint_dadoscolab)
+        .then(res=>res.json())
+        .then(res=>{
+            telefones.innerHTML="";
+            res.forEach(t=>{
+                criarCxTelefone(t.s_numero_telefone,t.n_telefone_telefone,"e");
+            })
+        });
+        novoColaborador.classList.remove("ocultarPopup");
+    });
+    divc5.appendChild(img_editar);
+
+    const img_remover=document.createElement("img");
+    img_remover.setAttribute("src","../../imgs/delete.svg")
+    img_remover.setAttribute("class","icone_op")
+    divc5.appendChild(img_remover);
+
+    dadosGrid.appendChild(divlinha);
+}
 
 const endpoint_tiposcolab=`${serv}/tiposcolab`;
 fetch(endpoint_tiposcolab)
@@ -232,16 +282,32 @@ fetch(endpoint_tiposcolab)
     f_tipoColab.innerHTML="";
     res.forEach(e=>{
         const opt=document.createElement("option");
-        opt.setAttribute("value",e.n_tipousuario_tipousuario);
-        opt.innerHTML=e.s_desc_tipousuario;
+        opt.setAttribute("value",e.n_tipopessoa_tipopessoa);
+        opt.innerHTML=e.s_desc_tipopessoa;
         f_tipoColab.appendChild(opt);
     });
 });
 
+const carga=()=>{
+    const endpoint_todoscolaboradores=`${serv}/todaspessoas`;
+    fetch(endpoint_todoscolaboradores)
+    .then(res=>res.json())
+    .then(res=>{
+         // console.log(res);
+         dadosGrid.innerHTML="";
+         res.forEach(e=>{
+             criarLinha(e);
+         })
+    })
+};
+
+carga();
+
 btn_add.addEventListener("click",(evt)=>{
-    document.getElementById("tituloPopup").innerHTML="Novo Colaborador";
+    document.getElementById("tituloPopup").innerHTML="Nova Pessoa";
     novoColaborador.classList.remove("ocultarPopup");
-    modojanela="n"
+    modojanela="n";
+    img_foto.classList.add("esconderElemento");
     limparColab();
 });
 
@@ -263,7 +329,19 @@ btn_cancelarPopup.addEventListener("click",(evt)=>{
 
 btn_gravarPopup.addEventListener("click",(evt)=>{
     if(f_telefone.value!=""){
-        alert("Existe um telefone informado mas não registrado! Verifique.")
+        const config={
+            titulo:"Alerta",
+            texto:"Existe um telefone informado mas não registrado! Verifique.",
+            cor:"rgba(90, 90, 253, 0.92)",
+            tipo:"ok",
+            ok:()=>{
+                console.log("OK clicado!");
+            },
+            sim:()=>{console.log("SIM clicado!");},
+            nao:()=>{console.log("NÃO clicado!");}
+        }
+        Cxmsg.mostrar(config);
+        // alert("Existe um telefone informado mas não registrado! Verifique.")
 
     }else{
 
@@ -274,12 +352,12 @@ btn_gravarPopup.addEventListener("click",(evt)=>{
         })
 
         const dados={
-            n_usuario_usuario:evt.target.dataset.idcolab,
-            s_nome_usuario:f_nome.value,
-            n_tipousuario_tipousuario:f_tipoColab.value,
-            c_status_usuario:f_status.value,
+            n_pessoa_pessoa:evt.target.dataset.idcolab,
+            s_nome_pessoa:f_nome.value,
+            n_tipopessoa_tipopessoa:f_tipoColab.value,
+            c_status_pessoa:f_status.value,
             numTelefones:numTels,
-            s_foto_usuario:img_foto.getAttribute("src")
+            s_foto_pessoa:img_foto.getAttribute("src")
         }
         
         const cab={
@@ -298,18 +376,56 @@ btn_gravarPopup.addEventListener("click",(evt)=>{
         .then(res=>{
             if(res.status == 200)    {
                 if(modojanela=="n"){
-                    alert("Novo Colaborador gravado gravado com sucesso!");
+                    const config={
+                        titulo:"Alerta",
+                        texto:"Nova Pessoa gravada com sucesso!",
+                        cor:"rgba(90, 90, 253, 0.92)",
+                        tipo:"ok",
+                        ok:()=>{
+                            console.log("OK clicado!");
+                        },
+                        sim:()=>{console.log("SIM clicado!");},
+                        nao:()=>{console.log("NÃO clicado!");}
+                    }
+                    Cxmsg.mostrar(config);
+                    // alert("Novo Colaborador gravado gravado com sucesso!");
                     limparColab();
                 }else{
-                    alert("Dados do Colaborador atualizados com sucesso!");
+                    const config={
+                        titulo:"Alerta",
+                        texto:"Dados da Pessoa atualizados com sucesso!",
+                        cor:"rgba(90, 90, 253, 0.92)",
+                        tipo:"ok",
+                        ok:()=>{
+                            console.log("OK clicado!");
+                        },
+                        sim:()=>{console.log("SIM clicado!");},
+                        nao:()=>{console.log("NÃO clicado!");}
+                    }
+                    Cxmsg.mostrar(config);
+                    // alert("Dados do Colaborador atualizados com sucesso!");
                     modojanela=="n" ? limparColab(): modojanela="e";
                 }
                 f_nome.focus();
                 carga();
             }else{
-                alert("Erro ao gravar novo Colaborador")
+                const config={
+                    titulo:"Alerta",
+                    texto:"Erro ao gravar nova Pessoa!",
+                    cor:"rgba(90, 90, 253, 0.92)",
+                    tipo:"ok",
+                    ok:()=>{
+                        console.log("OK clicado!");
+                    },
+                    sim:()=>{console.log("SIM clicado!");},
+                    nao:()=>{console.log("NÃO clicado!");}
+                }
+                Cxmsg.mostrar(config);
+                // alert("Erro ao gravar novo Colaborador")
             }
-        });
+        }).finally(()=>{
+            img_foto.classList.add("esconderElemento");
+        })
     }
     //novoColaborador.classList.add("ocultarPopup");
 })
@@ -321,7 +437,19 @@ f_telefone.addEventListener("keyup",(evt)=>{
             criarCxTelefone(evt.target.value,"-1","n")
             evt.target.value="";
         } else {
-            alert("Número de Telefone Inválido!")
+            const config={
+                titulo:"Alerta",
+                texto:"Número de Telefone Inválido!",
+                cor:"rgba(90, 90, 253, 0.92)",
+                tipo:"ok",
+                ok:()=>{
+                    console.log("OK clicado!");
+                },
+                sim:()=>{console.log("SIM clicado!");},
+                nao:()=>{console.log("NÃO clicado!");}
+            }
+            Cxmsg.mostrar(config);
+            // alert("Número de Telefone Inválido!")
         }
     }
 })
@@ -338,6 +466,13 @@ const converte_imagem_b64=(localDestino,arquivoimg)=>{
 }
 
 f_foto.addEventListener("change",(evt)=>{
+    // console.log(evt.target.files[0]=="" || evt.target.files[0]== null?"vazio":"OK");
+    if(evt.target.files[0]!="" && evt.target.files[0]!=null){
+        img_foto.classList.remove("esconderElemento");
+    }else{
+        img_foto.classList.add("esconderElemento");
+        img_foto.src="#";
+    }
     converte_imagem_b64(img_foto,evt.target.files[0]);
 })
 
@@ -349,4 +484,5 @@ const limparColab=()=>{
     img_foto.setAttribute("src","#");
     f_telefone.value="";
     telefones.innerHTML="";
+    img_foto.classList.add("esconderElemento");
 }

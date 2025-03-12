@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fornecedores - BackOffice</title>
+    <link rel="stylesheet" type="text/css" href="../../estoque_geral.css">
+    <link rel="stylesheet" type="text/css" href="fornecedores.css">
+    <script src="../../utils/utils.js"></script>
+</head>
+<body>
+    <div id="telefonesContForn" class="popup ocultarPopup">
+        <div class="janelaPopup">
+            <div class="tituloPopup">
+                <div id="tituloPopupPesquisar">Telefones do Fornecedor</div>
+                <img src="../../imgs/close.svg" title="Fechar" class="btn_janelaOper" id="btn_fecharPopuptelefonesContForn">
+            </div>
+            <div class="corpoPopup">
+                <div id="grid_telefonesContForn" class="areaGrid">
+                    <div class="grid">
+                        <div id="tituloGrid" class="tituloGrid">
+                            <div class="colunaTituloGrid c2_lcf">Telefone</div>
+                        </div>
+                        <div id="dadosGrid_telefonesContForn" class="dadosGrid">
+                            <!--
+                            <div class="linhaGrid">
+                                <div class="colunaTituloGrid c2_lcf">Telefone</div>
+                            </div>
+                            -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="rodapePopup">
+            </div>
+        </div>
+
+    </div>
+
+
+    <div id="listaContatosForn" class="popup ocultarPopup">
+        <div class="janelaPopup">
+            <div class="tituloPopup">
+                <div id="tituloPopupPesquisar">Lista de Contatos</div>
+                <img src="../../imgs/close.svg" title="Fechar" class="btn_janelaOper" id="btn_fecharPopupListaContatos">
+            </div>
+            <div class="corpoPopup">
+                <div id="grid_novosContatosForn" class="areaGrid">
+                    <div class="grid">
+                        <div id="tituloGrid" class="tituloGrid">
+                            <div class="colunaTituloGrid c1_lcf">ID</div>
+                            <div class="colunaTituloGrid c2_lcf">Nome</div>
+                            <div class="colunaTituloGrid c3_lcf">Operações</div>
+                        </div>
+                        <div id="dadosGrid_novosContatosForn" class="dadosGrid">
+                            <!--
+                            <div class="linhaGrid">
+                                <div class="colunaTituloGrid c1_lcf">ID</div>
+                                <div class="colunaTituloGrid c2_lcf">Nome</div>
+                                <div class="colunaTituloGrid c3_lcf">Operações</div>
+                            </div>
+                            -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="rodapePopup">
+                <button id="btn_criarNovoContatoForn" class="btn_comandoPopup">Criar NOvo Contato</button>
+
+            </div>
+        </div>
+
+    </div>
+    <div id="topoJanela" class="topoJanela">
+        <div></div>
+        <div>Fornecedores</div>
+        <div>
+            <img src="../../imgs/pesquisar.svg" id="btn_pesq" class="btn_mainoper" title="Pesquisar fornecedor">  <!--Aqui é para o modelo de pesquisa usando backend-->
+            <img src="../../imgs/listartodos.svg" id="btn_listartudo" class="btn_mainoper" title="Listar todos os fornecedores">
+            <img src="../../imgs/add.svg" id="btn_add" class="btn_mainoper" title="Adicionar novo fornecedor">
+        </div>
+    </div>
+
+    <div id="filtragem" class="filtragem">
+        <div class="campoForm campoFiltragem">
+            <label for="f_filtragem">Filtrar por nome</label>
+            <input type="text" id="f_filtragem" name="f_filtragem" class="inputFiltragem">
+        </div>
+    </div>
+
+    <!-- Parte do popup de pesquisa usando Backend -->
+    <div id="pesquisa" class="popup ocultarPopup">
+        <div class="janelaPopup">
+            <div class="tituloPopup">
+                <div id="tituloPopupPesquisar">Pesquisar</div>
+                <img src="../../imgs/close.svg" title="Fechar" class="btn_janelaOper" id="btn_fecharPopupPesq">
+            </div>
+            <div class="corpoPopup">
+                <div class="campoForm">
+                    <label>Tipo da pesquisa</label>
+                    <div class="campoRadioPesq">
+                        <input type="radio" id="f_pesqId" name="f_pesqTipo" checked>ID
+                        <input type="radio" id="f_pesqNome" name="f_pesqTipo">Nome
+                    </div>
+                </div>
+                <div class="campoForm">
+                    <input type="text" id="f_pesq" name="f_pesq">
+                </div>  
+            </div>
+            <div class="rodapePopup">
+                <button id="btn_pesquisar" class="btn_comandoPopup">Pesquisar</button>
+
+            </div>
+        </div>
+    </div>
+    <!-- **************************************** -->
+
+
+    <div id="novoFornecedor" class="popup ocultarPopup">
+        <div class="janelaPopup">
+            <div class="tituloPopup">
+                <div id="tituloPopup">Novo Fornecedor</div>
+                <img src="../../imgs/close.svg" title="Fechar" class="btn_janelaOper" id="btn_fecharPopup">
+            </div>
+            <div class="corpoPopup">
+                <div class="campoForm">
+                    <label for="f_nome">Nome Fornecedor</label>
+                    <input type="text" id="f_nome" name="f_nome">
+                </div>
+                <div class="campoForm">
+                    <label for="f_status">Status Fornecedor</label>
+                    <select id="f_status" name="f_status">
+                        <option value="A">Ativo</option>
+                        <option value="I">Inativo</option>
+                    </select>
+                </div>                
+                <div class="campoForm">
+                    <label for="f_foto">Foto</label>
+                    <input type="file" accept="image/png, image/jpeg, image/jpg" id="f_foto" name="f_foto">
+                </div>  
+                <div class="campoForm2">
+                    <img src="#" id="img_foto" class="img_foto">
+                </div>  
+                <div class="campoForm">
+                    <button id="btn_listarContatosForn" class="btn_comandoPopup">Listar Contatos Fornecedores</button>
+                </div> 
+                <div class="campoForm">
+                    <div id="grid_listaContatosFornAdd" class="areaGrid">
+                        <div class="grid">
+                            <div id="tituloGrid" class="tituloGrid">
+                                <div class="colunaTituloGrid c1_lcf">ID</div>
+                                <div class="colunaTituloGrid c2_lcf">Nome</div>
+                                <div class="colunaTituloGrid c3_lcf">Operações</div>
+                            </div>
+                            <div id="dadosGrid_contatosFornAdd" class="dadosGrid">
+                                <!-- 
+                                <div class="linhaGrid">
+                                    <div class="colunaTituloGrid c1_lcf">ID</div>
+                                    <div class="colunaTituloGrid c2_lcf">Nome</div>
+                                    <div class="colunaTituloGrid c3_lcf">Operações</div> 
+                                </div>
+                                -->
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+            <div class="rodapePopup">
+                <button id="btn_gravarPopup" class="btn_comandoPopup">Gravar</button>
+                <button id="btn_cancelarPopup" class="btn_comandoPopup">Cancelar</button>
+
+            </div>
+        </div>
+    </div>
+
+    <div id="areaGrid" class="areaGrid">
+        <div id="grid" class="grid">
+            <div id="tituloGrid" class="tituloGrid">
+                <div class="colunaTituloGrid c1">ID</div>
+                <div class="colunaTituloGrid c2">Nome</div>
+                <div class="colunaTituloGrid c3">Status</div>
+                <div class="colunaTituloGrid c4">Operações</div>
+            </div>
+            <div id="dadosGrid" class="dadosGrid">
+                <!--
+                    <div class="linhaGrid">
+                        <div class="linhaTituloGrid c1">ID</div>
+                        <div class="linhaTituloGrid c2">Nome</div>
+                        <div class="linhaTituloGrid c4">Status</div>
+                        <div class="linhaTituloGrid c5">Operações</div>
+                    </div>
+                -->
+            </div>
+        </div>
+    </div>
+
+
+    <script src="../../estoque_geral.js" type="module"></script>
+    <script src="fornecedores.js" type="module"></script>
+</body>
+</html>
