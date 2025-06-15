@@ -233,7 +233,7 @@ const criarLinha=(e)=>{
 
 const addContForn=(id,nome)=>{
     const divlinha=document.createElement("div");
-    divlinha.setAttribute("class","linhaGrid");
+    divlinha.setAttribute("class","linhaGrid novoContForn");
 
     const divc1=document.createElement("div");
     divc1.setAttribute("class","colunaLinhaGrid c1_lcf");
@@ -256,6 +256,28 @@ const addContForn=(id,nome)=>{
         evt.target.parentNode.parentNode.remove();  //pega a linha inteira
     })
     divc3.appendChild(img_removerContForn);
+
+    const img_verFoneContForn=document.createElement("img");
+    img_verFoneContForn.setAttribute("src","../../imgs/verTelefone.svg");
+    img_verFoneContForn.setAttribute("class","icone_op");
+    img_verFoneContForn.addEventListener("click",(evt)=>{
+        const id=evt.target.parentNode.parentNode.firstChild.innerHTML;  //Buscando ID da linha do grid onde clicou no lapis
+        document.getElementById("tituloPopup").innerHTML="Editar Fornecedor";
+        console.log(id);
+        let endpoint=`${serv}/retornaTelefones/${id}`
+        fetch(endpoint)
+        .then(res=>res.json())
+        .then(res=>{
+            const mzi=maiorZIndex()+2;
+            telefonesContForn.setAttribute("style",`z-index:${mzi} !important`);
+            dadosGrid_telefonesContForn.innerHTML="";
+            telefonesContForn.classList.remove("ocultarPopup");
+            res.forEach(e=>{
+                addTelefoneContForn(e.s_numero_telefone);
+            });
+        });
+    });
+    divc3.appendChild(img_verFoneContForn);
 
     dadosGrid_contatosFornAdd.appendChild(divlinha);
 }
@@ -379,10 +401,17 @@ btn_gravarPopup.addEventListener("click",(evt)=>{
         numTels.push(t.innerHTML);
     })
 
+    const contat = [...document.querySelectorAll(".novoContForn")];
+    let a_contat=[];
+    contat.forEach(t=>{
+        a_contat.push(t.firstChild.innerHTML);
+    })
+
     const dados={
         n_fornecedor_fornecedor:evt.target.dataset.idfornecedor,
         s_desc_fornecedor:f_nome.value,
         c_status_fornecedor:f_status.value,
+        listacontatos:a_contat,
         s_logo_fornecedor:img_foto.getAttribute("src")
     }
     
