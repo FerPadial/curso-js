@@ -14,7 +14,7 @@
         <div>
             <img src="../../imgs/pesquisar.svg" id="btn_pesq" class="btn_mainoper" title="Pesquisar produtos">  <!--Aqui é para o modelo de pesquisa usando backend-->
             <img src="../../imgs/listartodos.svg" id="btn_listartudo" class="btn_mainoper" title="Listar todos os produtos">
-            <img src="../../imgs/mov.svg" id="btn_mov" class="btn_mainoper" title="Movimentação de Estoque">
+            <!-- <img src="../../imgs/mov.svg" id="btn_mov" class="btn_mainoper" title="Movimentação de Estoque"> -->
             <img src="../../imgs/add.svg" id="btn_add" class="btn_mainoper" title="Adicionar novo produto">
         </div>
     </div>
@@ -54,7 +54,7 @@
     <!-- **************************************** -->
 
 
-    <div id="novoProduto" class="popup ">
+    <div id="novoProduto" class="popup ocultarPopup">
         <div class="janelaPopup">
             <div class="tituloPopup">
                 <div id="tituloPopup">Novo Produto</div>
@@ -74,14 +74,14 @@
                     <input type="number" min="0" value="1" id="f_qtdeprod" name="f_qtdeprod">
                 </div>
                 <div class="campoForm">
-                    <label for="f_fornprod">Tipo Produto</label>
-                    <select id="f_fornprod" name="f_fornprod">
+                    <label for="f_tipoprod">Tipo Produto</label>
+                    <select id="f_tipoprod" name="f_tipoprod">
                         <option>Teste</option>
                     </select>
                 </div>         
                 <div class="campoForm">
-                    <label for="f_fornecedor">Fornecedor</label>
-                    <select id="f_tipoprod" name="f_tipoprod">
+                    <label for="f_fornprod">Fornecedor</label>
+                    <select id="f_fornprod" name="f_fornprod">
                         <option>Teste</option>
                     </select>
                 </div>                        
@@ -105,29 +105,30 @@
         <div class="janelaPopup">
             <div class="tituloPopup">
                 <div id="tituloPopup">Movimentação de Estoque</div>
-                <img src="../../imgs/close.svg" title="Fechar" class="btn_janelaOper" id="btn_fecharPopup">
+                <img src="../../imgs/close.svg" title="Fechar" class="btn_janelaOper" id="btn_fecharPopupMov">
             </div>
             <div class="corpoPopup">
                 <div class="campoForm">
-                    <label for="f_nome">Descrição do Produto</label>
-                    <input type="text" id="f_nome" name="f_nome">
+                    <label for="f_codprodmov">Código do Produto</label>
+                    <input type="text" id="f_codprodmov" name="f_codprodmov">
                 </div>
                 <div class="campoForm">
-                    <label for="f_tipoColab">Tipo Produto</label>
-                    <select id="f_tipoColab" name="f_tipoColab">
-                        <option>Teste</option>
-                    </select>
+                    <label for="f_descprodmov">Descrição do Produto</label>
+                    <input type="text" id="f_descprodmov" name="f_descprodmov">
                 </div>                
                 <div class="campoForm">
-                    <label for="f_status">Status Produto</label>
-                    <select id="f_status" name="f_status">
-                        <option value="A">Ativo</option>
-                        <option value="I">Inativo</option>
-                    </select>
-                </div>                
+                    <label for="f_qtdeprodmov">Quantidade</label>
+                    <input type="text" id="f_qtdeprodmov" name="f_qtdeprodmov">
+                </div>               
+                <div class="campoForm">
+                    <label for="f_qtdeprodregmov">Quantidade a ser Registrada</label>
+                    <input type="number" value="0" min="0" id="f_qtdeprodregmov" name="f_qtdeprodregmov">
+                </div>               
             </div>
             <div class="rodapePopup">
-                <button id="btn_gravarPopup" class="btn_comandoPopup">Registrar Movimentação</button>
+                <button id="btn_addqtde" class="btn_comandoPopup">Adicionar</button>
+                <button id="btn_removeqtde" class="btn_comandoPopup">Remover</button>
+                <button id="btn_gravarmov" class="btn_comandoPopup">Gravar</button>
                 <button id="btn_cancelarPopup" class="btn_comandoPopup">Cancelar</button>
 
             </div>
@@ -139,7 +140,7 @@
             <div id="tituloGrid" class="tituloGrid">
                 <div class="colunaTituloGrid c1">ID</div>
                 <div class="colunaTituloGrid c2">Descrição</div>
-                <div class="colunaTituloGrid c3">Tipo</div>
+                <div class="colunaTituloGrid c3">Qtde</div>
                 <div class="colunaTituloGrid c4">Status</div>
                 <div class="colunaTituloGrid c5">Operações</div>
             </div>

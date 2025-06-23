@@ -2,28 +2,38 @@ import {Cxmsg} from "../../utils/cxmsg.js";
 
 const dadosGrid=document.querySelector("#dadosGrid");
 const btn_add=document.querySelector("#btn_add");
-const novoColaborador=document.querySelector("#novoColaborador");
-const btn_fecharPopup=document.querySelector("#btn_fecharPopup");
+const novoProduto=document.querySelector("#novoProduto");
+const f_tipoprod=document.querySelector("#f_tipoprod");
+const f_fornprod=document.querySelector("#f_fornprod");
+const f_statusprod=document.querySelector("#f_statusprod");
+const f_codprod=document.querySelector("#f_codprod");
+const f_descprod=document.querySelector("#f_descprod");
+const f_qtdeprod=document.querySelector("#f_qtdeprod");
+
+const btn_gravarmov=document.querySelector("#btn_gravarmov");
+const btn_addqtde=document.querySelector("#btn_addqtde");
+const btn_removeqtde=document.querySelector("#btn_removeqtde");
+const btn_fecharPopup=document.querySelector("#btn_removeqtde");
 const btn_gravarPopup=document.querySelector("#btn_gravarPopup");
 const btn_cancelarPopup=document.querySelector("#btn_cancelarPopup");
-const telefones=document.querySelector("#telefones");
-const f_telefone=document.querySelector("#f_telefone");
-const f_nome=document.querySelector("#f_nome");
-const f_tipoColab=document.querySelector("#f_tipoColab");
-const f_status=document.querySelector("#f_status");
-const f_foto=document.querySelector("#f_foto");
-const img_foto=document.querySelector("#img_foto");
 const f_filtragem=document.querySelector("#f_filtragem");
 const pesquisa=document.querySelector("#pesquisa");
 const btn_fecharPopupPesq=document.querySelector("#btn_fecharPopupPesq");
+const btn_fecharPopupMov=document.querySelector("#btn_fecharPopupMov");
 const btn_pesq=document.querySelector("#btn_pesq");
 const f_pesqId=document.querySelector("#f_pesqId");
 const f_pesqNome=document.querySelector("#f_pesqNome");
 const f_pesq=document.querySelector("#f_pesq");
 const btn_pesquisar=document.querySelector("#btn_pesquisar");
 const btn_listartudo=document.querySelector("#btn_listartudo");
+const movEstoque=document.querySelector("#movEstoque");
+const f_codprodmov=document.querySelector("#f_codprodmov");
+const f_descprodmov=document.querySelector("#f_descprodmov");
+const f_qtdeprodmov=document.querySelector("#f_qtdeprodmov");
+const f_qtdeprodregmov=document.querySelector("#f_qtdeprodregmov");
 
-//n=Novo Colaborador | e=Editar Colaborador
+
+//n=Novo Produto | e=Editar Produto
 let modojanela="n"
 const serv=sessionStorage.getItem("servidor_nodered");
 
@@ -46,6 +56,9 @@ f_filtragem.addEventListener("keyup",(evt)=>{
 btn_fecharPopupPesq.addEventListener("click",(evt)=>{
     pesquisa.classList.add("ocultarPopup");
 })
+btn_fecharPopupMov.addEventListener("click",(evt)=>{
+    movEstoque.classList.add("ocultarPopup");
+})
 btn_pesq.addEventListener("click",(evt)=>{
     f_pesq.value="";
     f_pesq.focus();
@@ -63,7 +76,7 @@ btn_pesquisar.addEventListener("click",(evt)=>{  //Essa pesquisa será via backe
     if(f_pesq.value!=""){
         let tipo=null;
         tipo = f_pesqId.checked?"id":"nome";
-        const endpointpesq=`${serv}/pesquisacolab/${tipo}/${f_pesq.value}`
+        const endpointpesq=`${serv}/pesquisaprod/${tipo}/${f_pesq.value}`
         fetch(endpointpesq)
         .then(res=>res.json())
         .then(res=>{
@@ -98,84 +111,28 @@ btn_listartudo.addEventListener("click",(ev)=>{
     carga();
 })
 
-const criarCxTelefone=(fone,idtel,tipo)=>{
-    const divTel=document.createElement("div");
-    divTel.setAttribute("class","tel");
-
-    const numTel=document.createElement("div");
-    if(tipo=="n"){
-        numTel.setAttribute("class","numTel novoTel");
-    }else{
-        numTel.setAttribute("class","numTel editarTel");
-    }
-    numTel.innerHTML=fone;
-    divTel.appendChild(numTel);
-
-    const delTel=document.createElement("img");
-    delTel.setAttribute("src","../../imgs/delete.svg");
-    delTel.setAttribute("class","delTel");
-    delTel.setAttribute("data-idtel",idtel);
-    delTel.addEventListener("click",(ev)=>{
-        //console.log(evt.target.parentNode);
-        if(idtel!="-1"){   //-1 igual a telefone novo então só exclui da base se o telefone já existir
-            const objTel=ev.target;
-            const idtel=objTel.dataset.idtel;
-            
-            if(confirm(`Confirma exclusão do telefone: ${fone}?`)){
-                const endpoint_deltel=`${serv}/deltelefone/${idtel}`;
-                fetch(endpoint_deltel)
-                .then(res=>{
-                    if(res.status==200){
-                        ev.target.parentNode.remove(); //elimino o pai da div da lixeira parentNode
-                    }else{
-                        const config={
-                            titulo:"Alerta",
-                            texto:"Não foi possível remover o telefone!",
-                            cor:"rgba(90, 90, 253, 0.92)",
-                            tipo:"ok",
-                            ok:()=>{
-                                console.log("OK clicado!");
-                            },
-                            sim:()=>{console.log("SIM clicado!");},
-                            nao:()=>{console.log("NÃO clicado!");}
-                        }
-                        Cxmsg.mostrar(config);
-                
-                        // alert("Não foi possível remover o telefone!")
-                    }
-                })
-            }
-        }else{  //-1 igual a telefone novo então só remove da tela pq ainda não existe na base
-            ev.target.parentNode.remove(); //elimino o pai da div da lixeira parentNode
-        }
-    })
-    divTel.appendChild(delTel);
-
-    telefones.appendChild(divTel);
-}
-
 const criarLinha=(e)=>{
     const divlinha=document.createElement("div");
     divlinha.setAttribute("class","linhaGrid");
 
     const divc1=document.createElement("div");
     divc1.setAttribute("class","colunaLinhaGrid c1");
-    divc1.innerHTML = e.n_pessoa_pessoa;
+    divc1.innerHTML = e.n_cod_produto;
     divlinha.appendChild(divc1);
 
     const divc2=document.createElement("div");
     divc2.setAttribute("class","colunaLinhaGrid c2");
-    divc2.innerHTML = e.s_nome_pessoa;
+    divc2.innerHTML = e.s_desc_produto;
     divlinha.appendChild(divc2);
 
     const divc3=document.createElement("div");
     divc3.setAttribute("class","colunaLinhaGrid c3");
-    divc3.innerHTML = e.n_tipopessoa_tipopessoa;
+    divc3.innerHTML = e.n_qtde_produto;
     divlinha.appendChild(divc3);
 
     const divc4=document.createElement("div");
     divc4.setAttribute("class","colunaLinhaGrid c4");
-    divc4.innerHTML = e.c_status_pessoa;
+    divc4.innerHTML = e.c_status_produto;
     divlinha.appendChild(divc4);
 
     const divc5=document.createElement("div");
@@ -183,31 +140,35 @@ const criarLinha=(e)=>{
     divlinha.appendChild(divc5);
 
     const img_status=document.createElement("img");
-    img_status.setAttribute("data-idcolab",e.n_pessoa_pessoa);
+    img_status.setAttribute("data-idprod",e.n_cod_produto);
     img_status.setAttribute("class","icone_op");
-    if(e.c_status_pessoa=="A"){
+    if(e.c_status_produto=="A"){
+        img_status.setAttribute("title","Inativar Produto")
         img_status.setAttribute("src","../../imgs/on.svg");
     }else{
+        img_status.setAttribute("title","Ativar Produto")
         img_status.setAttribute("src","../../imgs/off.svg");
     }
-    let status_colab=e.c_status_pessoa;
+    let status_prod=e.c_status_produto;
     img_status.addEventListener("click",(evt)=>{
-        const idcolab=evt.target.dataset.idcolab;  
-        status_colab=status_colab=="A"?"I":"A";
-        const endpoint_statuscolab=`${serv}/statuscolab/${idcolab}/${status_colab}`;
-        fetch(endpoint_statuscolab)
+        const idprod=evt.target.dataset.idprod;  
+        status_prod=status_prod=="A"?"I":"A";
+        const endpoint_statusprod=`${serv}/statusprod/${idprod}/${status_prod}`;
+        fetch(endpoint_statusprod)
         .then(req=>{
             if(req.status==200){
-                divc4.innerHTML = status_colab;
-                if(status_colab=="A"){
+                divc4.innerHTML = status_prod;
+                if(status_prod=="A"){
+                    img_status.setAttribute("title","Inativar Produto")
                     img_status.setAttribute("src","../../imgs/on.svg");
                 }else{
+                    img_status.setAttribute("title","Ativar Produto")
                     img_status.setAttribute("src","../../imgs/off.svg");
                 }
             }else{
                 const config={
                     titulo:"Alerta",
-                    texto:"Não foi possível atualizar o status da Pessoa!",
+                    texto:"Não foi possível atualizar o status do Produto!",
                     cor:"rgba(90, 90, 253, 0.92)",
                     tipo:"ok",
                     ok:()=>{
@@ -217,7 +178,7 @@ const criarLinha=(e)=>{
                     nao:()=>{console.log("NÃO clicado!");}
                 }
                 Cxmsg.mostrar(config);
-                // alert("Não foi possível atualizar o status do Colaborador!");
+                // alert("Não foi possível atualizar o status do Produto!");
             }
         });
     })
@@ -226,71 +187,106 @@ const criarLinha=(e)=>{
     const img_editar=document.createElement("img");
     img_editar.setAttribute("src","../../imgs/editar.svg")
     img_editar.setAttribute("class","icone_op")
+    img_editar.setAttribute("title","Editar Produto")
     img_editar.addEventListener("click",(evt)=>{
         const id=evt.target.parentNode.parentNode.firstChild.innerHTML;  //Buscando ID da linha do grid onde clicou no lapis
         modojanela="e";
-        document.getElementById("tituloPopup").innerHTML="Editar Pessoa";
+        document.getElementById("tituloPopup").innerHTML="Editar Produto";
 
-        let  endpoint_dadoscolab=`${serv}/dadoscolab/${id}`;
-        fetch(endpoint_dadoscolab)
+        let  endpoint_dadosprod=`${serv}/dadosprod/${id}`;
+        fetch(endpoint_dadosprod)
         .then(res=>res.json())
         .then(res=>{
-            btn_gravarPopup.setAttribute("data-idcolab",id);   //guarda o valor do ID em um dataset do botão gravar pra ser recuperado na ação de update (editarcolab)
-            f_nome.value=res[0].s_nome_pessoa;
-            f_tipoColab.value=res[0].n_tipopessoa_tipopessoa;
-            f_status.value=res[0].c_status_pessoa;
-            //img_foto.setAttribute("src",res.s_foto_pessoa);
-
-            if (res[0].s_foto_pessoa!="" && res[0].s_foto_pessoa!=null && res[0].s_foto_pessoa!="#"){
-                img_foto.src=res[0].s_foto_pessoa;
-                novoColaborador.classList.remove("ocultarPopup");
-                if(img_foto.src=="" || img_foto.src=="#"){
-                    img_foto.classList.add("esconderElemento");
-                }else{
-                    img_foto.classList.remove("esconderElemento");
-                }
-            }else{
-                img_foto.classList.add("esconderElemento");
-            }
+            btn_gravarPopup.setAttribute("data-idprod",id);   //guarda o valor do ID em um dataset do botão gravar pra ser recuperado na ação de update (editarcolab)
+            f_codprod.value=res[0].n_cod_produto;
+            f_tipoprod.value=res[0].n_tipoproduto_tipoproduto;
+            f_statusprod.value=res[0].c_status_produto;
+            f_descprod.value=res[0].s_desc_produto;
+            f_fornprod.value=res[0].n_fornecedor_fornecedor;
+            f_qtdeprod.value=res[0].n_qtde_produto;
+            novoProduto.classList.remove("ocultarPopup");
         });
 
-        endpoint_dadoscolab=`${serv}/telefonesColab/${id}`;
-        fetch(endpoint_dadoscolab)
-        .then(res=>res.json())
-        .then(res=>{
-            telefones.innerHTML="";
-            res.forEach(t=>{
-                criarCxTelefone(t.s_numero_telefone,t.n_telefone_telefone,"e");
-            })
-        });
-        novoColaborador.classList.remove("ocultarPopup");
+        novoProduto.classList.remove("ocultarPopup");
     });
     divc5.appendChild(img_editar);
 
-    const img_remover=document.createElement("img");
-    img_remover.setAttribute("src","../../imgs/delete.svg")
-    img_remover.setAttribute("class","icone_op")
-    divc5.appendChild(img_remover);
+    const img_movimentar=document.createElement("img");
+    img_movimentar.setAttribute("src","../../imgs/mov_b.svg")
+    img_movimentar.setAttribute("class","icone_op")
+    img_movimentar.setAttribute("title","Movimentação do Produto")
+    img_movimentar.addEventListener("click",(evt)=>{
+        const l  = evt.target.parentNode.parentNode;
+        //console.log(st);
+        if(l.childNodes[3].innerHTML == "A"){  //estamos veriicando aqui o que consta em nossa tela mas o ideal é criar uma API e verificar na base pq outra terminal pode ter alterado
+            f_codprodmov.value=l.childNodes[0].innerHTML;
+            f_descprodmov.value=l.childNodes[1].innerHTML;
+            f_qtdeprodmov.value=l.childNodes[2].innerHTML;
+            movEstoque.classList.remove("ocultarPopup")
+
+        }else{
+            const config={
+                titulo:"Alerta",
+                texto:"Produto com Status Inativo Não pode ser Movimentado!",
+                cor:"rgba(90, 90, 253, 0.92)",
+                tipo:"ok",
+                ok:()=>{
+                    console.log("OK clicado!");
+                },
+                sim:()=>{console.log("SIM clicado!");},
+                nao:()=>{console.log("NÃO clicado!");}
+            }
+            Cxmsg.mostrar(config);
+        }
+    })
+
+    divc5.appendChild(img_movimentar);
 
     dadosGrid.appendChild(divlinha);
 }
 
-const endpoint_tiposcolab=`${serv}/tiposcolab`;
+const endpoint_tiposcolab=`${serv}/tiposprod`;
 fetch(endpoint_tiposcolab)
 .then(res=>res.json())
 .then(res=>{
-    f_tipoColab.innerHTML="";
+    f_tipoprod.innerHTML="";
     res.forEach(e=>{
         const opt=document.createElement("option");
-        opt.setAttribute("value",e.n_tipopessoa_tipopessoa);
-        opt.innerHTML=e.s_desc_tipopessoa;
-        f_tipoColab.appendChild(opt);
+        opt.setAttribute("value",e.n_tipoproduto_tipoproduto);
+        opt.innerHTML=e.s_desc_tipoproduto;
+        f_tipoprod.appendChild(opt);
     });
 });
 
 const carga=()=>{
-    const endpoint_todoscolaboradores=`${serv}/todaspessoas`;
-    fetch(endpoint_todoscolaboradores)
+    const endpoint_tiposprod=`${serv}/tiposprod`;
+    fetch(endpoint_tiposprod)
+    .then(res=>res.json())
+    .then(res=>{
+        f_tipoprod.innerHTML="";
+        res.forEach(e=>{
+            const opt=document.createElement("option");
+            opt.setAttribute("value",e.n_tipoproduto_tipoproduto);
+            opt.innerHTML=e.s_desc_tipoproduto;
+            f_tipoprod.appendChild(opt);
+        })
+    })
+
+    const endpoint_fornprod=`${serv}/fornprod`;
+    fetch(endpoint_fornprod)
+    .then(res=>res.json())
+    .then(res=>{
+        f_fornprod.innerHTML="";
+        res.forEach(e=>{
+            const opt=document.createElement("option");
+            opt.setAttribute("value",e.n_fornecedor_fornecedor);
+            opt.innerHTML=e.s_desc_fornecedor;
+            f_fornprod.appendChild(opt);
+        })
+    })
+
+    const endpoint_todosProdutos=`${serv}/todosprod`;
+    fetch(endpoint_todosProdutos)
     .then(res=>res.json())
     .then(res=>{
          // console.log(res);
@@ -303,16 +299,53 @@ const carga=()=>{
 
 carga();
 
+btn_gravarmov.addEventListener("click",(evt)=>{
+
+});
+
+btn_addqtde.addEventListener("click",(evt)=>{
+    let qtdeatual = parseInt(f_qtdeprodmov.value);
+    let qtdeadd = parseInt(f_qtdeprodregmov.value);
+
+    qtdeatual += qtdeadd;
+
+    f_qtdeprodmov.value = qtdeatual;
+    f_qtdeprodregmov.value="0";
+});
+
+btn_removeqtde.addEventListener("click",(evt)=>{
+    let qtdeatual = parseInt(f_qtdeprodmov.value);
+    let qtderem = parseInt(f_qtdeprodregmov.value);
+
+    if((qtdeatual-qtderem) >= 0){
+        qtdeatual -= qtderem;
+        f_qtdeprodmov.value = qtdeatual;
+        f_qtdeprodregmov.value="0";
+    }else{
+        const config={
+            titulo:"Alerta",
+            texto:"Estoque insuficiente!",
+            cor:"rgba(90, 90, 253, 0.92)",
+            tipo:"ok",
+            ok:()=>{
+                console.log("OK clicado!");
+            },
+            sim:()=>{console.log("SIM clicado!");},
+            nao:()=>{console.log("NÃO clicado!");}
+        }
+        Cxmsg.mostrar(config);
+    }
+});
+
 btn_add.addEventListener("click",(evt)=>{
-    document.getElementById("tituloPopup").innerHTML="Nova Pessoa";
-    novoColaborador.classList.remove("ocultarPopup");
+    document.getElementById("tituloPopup").innerHTML="Novo Produto";
+    novoProduto.classList.remove("ocultarPopup");
     modojanela="n";
-    img_foto.classList.add("esconderElemento");
-    limparColab();
+    limparProduto();
 });
 
 btn_fecharPopup.addEventListener("click",(evt)=>{
-    novoColaborador.classList.add("ocultarPopup");
+    novoProduto.classList.add("ocultarPopup");
 })
 
 btn_fecharPopupPesq.addEventListener("click",(evt)=>{
@@ -324,94 +357,45 @@ btn_pesq.addEventListener("click",(evt)=>{
 })
 
 btn_cancelarPopup.addEventListener("click",(evt)=>{
-    novoColaborador.classList.add("ocultarPopup");
+    novoProduto.classList.add("ocultarPopup");
 })
 
 btn_gravarPopup.addEventListener("click",(evt)=>{
-    if(f_telefone.value!=""){
-        const config={
-            titulo:"Alerta",
-            texto:"Existe um telefone informado mas não registrado! Verifique.",
-            cor:"rgba(90, 90, 253, 0.92)",
-            tipo:"ok",
-            ok:()=>{
-                console.log("OK clicado!");
-            },
-            sim:()=>{console.log("SIM clicado!");},
-            nao:()=>{console.log("NÃO clicado!");}
-        }
-        Cxmsg.mostrar(config);
-        // alert("Existe um telefone informado mas não registrado! Verifique.")
+    const dados={
+        n_cod_produto:f_codprod.value,
+        n_tipoproduto_tipoproduto:f_tipoprod.value,
+        s_desc_produto:f_descprod.value,
+        n_fornecedor_fornecedor:f_fornprod.value,
+        n_qtde_produto:f_qtdeprod.value,
+        c_status_produto:f_statusprod.value
+    }
+    
+    const cab={
+        method:'post',
+        body:JSON.stringify(dados)
+    }
 
+    let endpointnovoeditarprod=null;
+    if(modojanela=="n"){
+        endpointnovoeditarprod=`${serv}/novoprod`;
     }else{
+        endpointnovoeditarprod=`${serv}/editarprod`;
+    }
 
-        const tels=[...document.querySelectorAll(".novoTel")];  //só vai inserir na base os novos telefones
-        let numTels=[];
-        tels.forEach(t=>{
-            numTels.push(t.innerHTML);
-        })
+    //ESTUDAR MODO DE CHAMADA DE API -> SYNC AWAIT, o fetch é assincrono ele executa a chamada e libero o codigo para continuar o processamento, sync await aguarda a resposta
 
-        const dados={
-            n_pessoa_pessoa:evt.target.dataset.idcolab,
-            s_nome_pessoa:f_nome.value,
-            n_tipopessoa_tipopessoa:f_tipoColab.value,
-            c_status_pessoa:f_status.value,
-            numTelefones:numTels,
-            s_foto_pessoa:img_foto.getAttribute("src")
-        }
-        
-        const cab={
-            method:'post',
-            body:JSON.stringify(dados)
-        }
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5000);   //5 segundos
+    clearTimeout(timeoutId);
 
-        let endpointnovoeditarcolab=null;
-        if(modojanela=="n"){
-            endpointnovoeditarcolab=`${serv}/novocolab`;
-        }else{
-            endpointnovoeditarcolab=`${serv}/editarcolab`;
-        }
-
-        fetch(endpointnovoeditarcolab,cab)
-        .then(res=>{
-            if(res.status == 200)    {
-                if(modojanela=="n"){
-                    const config={
-                        titulo:"Alerta",
-                        texto:"Nova Pessoa gravada com sucesso!",
-                        cor:"rgba(90, 90, 253, 0.92)",
-                        tipo:"ok",
-                        ok:()=>{
-                            console.log("OK clicado!");
-                        },
-                        sim:()=>{console.log("SIM clicado!");},
-                        nao:()=>{console.log("NÃO clicado!");}
-                    }
-                    Cxmsg.mostrar(config);
-                    // alert("Novo Colaborador gravado gravado com sucesso!");
-                    limparColab();
-                }else{
-                    const config={
-                        titulo:"Alerta",
-                        texto:"Dados da Pessoa atualizados com sucesso!",
-                        cor:"rgba(90, 90, 253, 0.92)",
-                        tipo:"ok",
-                        ok:()=>{
-                            console.log("OK clicado!");
-                        },
-                        sim:()=>{console.log("SIM clicado!");},
-                        nao:()=>{console.log("NÃO clicado!");}
-                    }
-                    Cxmsg.mostrar(config);
-                    // alert("Dados do Colaborador atualizados com sucesso!");
-                    modojanela=="n" ? limparColab(): modojanela="e";
-                }
-                f_nome.focus();
-                carga();
-            }else{
+    fetch(endpointnovoeditarprod,cab)
+    .then(res=>{
+        clearTimeout(timeoutId);
+        if(res.status == 200)    {
+            if(modojanela=="n"){
                 const config={
                     titulo:"Alerta",
-                    texto:"Erro ao gravar nova Pessoa!",
+                    texto:"Novo Produto adicionado com sucesso!",
                     cor:"rgba(90, 90, 253, 0.92)",
                     tipo:"ok",
                     ok:()=>{
@@ -421,25 +405,30 @@ btn_gravarPopup.addEventListener("click",(evt)=>{
                     nao:()=>{console.log("NÃO clicado!");}
                 }
                 Cxmsg.mostrar(config);
-                // alert("Erro ao gravar novo Colaborador")
+                // alert("Novo Produto gravado gravado com sucesso!");
+                limparProduto();
+            }else{
+                const config={
+                    titulo:"Alerta",
+                    texto:"Produto atualizado com sucesso!",
+                    cor:"rgba(90, 90, 253, 0.92)",
+                    tipo:"ok",
+                    ok:()=>{
+                        console.log("OK clicado!");
+                    },
+                    sim:()=>{console.log("SIM clicado!");},
+                    nao:()=>{console.log("NÃO clicado!");}
+                }
+                Cxmsg.mostrar(config);
+                // alert("Dados do Produto atualizados com sucesso!");
+                modojanela=="n" ? limparProduto(): modojanela="e";
             }
-        }).finally(()=>{
-            img_foto.classList.add("esconderElemento");
-        })
-    }
-    //novoColaborador.classList.add("ocultarPopup");
-})
-
-f_telefone.addEventListener("keyup",(evt)=>{
-    if(evt.key=="Enter"){
-        if(evt.target.value.length >= 8 && evt.target.value.length <=14){
-            //console.log(evt.target.value)
-            criarCxTelefone(evt.target.value,"-1","n")
-            evt.target.value="";
-        } else {
+            f_codprod.focus();
+            carga();
+        }else{
             const config={
                 titulo:"Alerta",
-                texto:"Número de Telefone Inválido!",
+                texto:"Erro ao gravar nova Pessoa!",
                 cor:"rgba(90, 90, 253, 0.92)",
                 tipo:"ok",
                 ok:()=>{
@@ -449,9 +438,13 @@ f_telefone.addEventListener("keyup",(evt)=>{
                 nao:()=>{console.log("NÃO clicado!");}
             }
             Cxmsg.mostrar(config);
-            // alert("Número de Telefone Inválido!")
+            // alert("Erro ao gravar novo Produto")
         }
-    }
+    })
+    .finally(()=>{
+        clearTimeout(timeoutId);
+    })
+    //novoProduto.classList.add("ocultarPopup");
 })
 
 const converte_imagem_b64=(localDestino,arquivoimg)=>{
@@ -465,24 +458,11 @@ const converte_imagem_b64=(localDestino,arquivoimg)=>{
     }
 }
 
-f_foto.addEventListener("change",(evt)=>{
-    // console.log(evt.target.files[0]=="" || evt.target.files[0]== null?"vazio":"OK");
-    if(evt.target.files[0]!="" && evt.target.files[0]!=null){
-        img_foto.classList.remove("esconderElemento");
-    }else{
-        img_foto.classList.add("esconderElemento");
-        img_foto.src="#";
-    }
-    converte_imagem_b64(img_foto,evt.target.files[0]);
-})
-
-const limparColab=()=>{
-    f_nome.value="";
-    f_status.value="";
-    f_tipoColab.value="";
-    f_foto.value="";
-    img_foto.setAttribute("src","#");
-    f_telefone.value="";
-    telefones.innerHTML="";
-    img_foto.classList.add("esconderElemento");
+const limparProduto=()=>{
+    f_codprod.value="";
+    f_descprod.value="";
+    f_qtdeprod.value="1";
+    f_tipoprod.value="-1";
+    f_fornprod.value="-1";
+    f_statusprod.value="A";
 }
